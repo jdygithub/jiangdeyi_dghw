@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" type="text/css" media="all" data-th-href="@{/layui/css/layui.css}"/>
+<link rel="stylesheet" type="text/css" href="/layui/css/layui.css"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Title</title>
+</head>
+<script>
+   /* function aa(){
+        var url="/images/1.jpg";
+        var path=plus.io.convertLocalFileSystemURL(url);
+        alert(path);
+    }*/
+
+</script>
+<body>
+<a href="/test"></a>
+<img src="/images/1.jpg" width="200" height="150">
+<video id="video" src="/images/利兹与青鸟.mp4" width="1280" height="720" controls="controls" autoplay="autoplay" loop="loop" >
+
+</video>
+
+<video  src="https://www.bilibili.com/video/av55855347/" width="1280" height="720" controls="controls" autoplay="autoplay" loop="loop" >
+
+</video>
+
+<table>
+    <thead>
+        <tr>
+            <td>用户编号</td>
+            <td>用户名</td>
+            <td>密码</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-th-each="user : ${users}">
+            <td data-th-text="${user.uid}"></td>
+            <td data-th-text="${user.uname}"></td>
+            <td data-th-text="${user.upwd}"></td>
+        </tr>
+
+    </tbody>
+</table>
+<p th:text="#{text.wok}"></p>
+</body>
+</html>
