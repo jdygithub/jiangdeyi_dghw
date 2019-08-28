@@ -15,6 +15,7 @@ public class Collections implements Serializable {
     private static final long serialVersionUID = 6525922498497713937L;
     private Integer collectionid;//藏品ID
     private String collectionno;//藏品编号
+    private String collectionnotype;//编号类别
     private String collectionname;//藏品名字
     private String collectionyear;//藏品年代
     private String collectionspeuear;//藏品入藏范围 1949-1965,1965-2001,2001到至今

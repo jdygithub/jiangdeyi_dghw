@@ -10,6 +10,8 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/admin/css/font.css">
     <link rel="stylesheet" href="/admin/css/xadmin.css">
+      <link rel="stylesheet" href="/admin/layui/css/layui.css"  media="all">
+      <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
     <script src="/admin/js/jquery.min.js"></script>
     <script type="text/javascript" src="/admin/lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="/admin/js/xadmin.js"></script>
@@ -29,225 +31,246 @@
 
         <form class="layui-form" action="" lay-filter="component-form-group">
 
-          <div class="layui-form-item">
+          <div class="layui-form-item" >
+
             <div class="layui-inline">
               <label class="layui-form-label">编号类型</label>
               <div class="layui-input-inline">
                 <select name="modules" lay-verify="required" lay-search="">
                   <option value="">请选择</option>
-                  <option value="1">藏品总登记号</option>
-                  <option value="2">辅助账号</option>
-                  <option value="3">索书号</option>
-                  <option value="4">档案编号</option>
-                  <option value="5">固定资产登记号</option>
-                  <option value="6">财产登记号</option>
-                  <option value="7">出土(水)登记号</option>
-                  <option value="8">其他编号</option>
+                  <option value="藏品总登记号">藏品总登记号</option>
+                  <option value="辅助账号">辅助账号</option>
+                  <option value="索书号">索书号</option>
+                  <option value="档案编号">档案编号</option>
+                  <option value="固定资产登记号">固定资产登记号</option>
+                  <option value="财产登记号">财产登记号</option>
+                  <option value="出土(水)登记号">出土(水)登记号</option>
+                  <option value="其他编号">其他编号</option>
                 </select>
               </div>
             </div>
-            <div class="layui-inline">
+
+            <div class="layui-inline" >
               <label class="layui-form-label">藏品编号</label>
               <div class="layui-input-inline">
-                <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input" style="width: 400px">
               </div>
             </div>
+
+          </div>
+
+
+
+          <div class="layui-form-item">
+              <div class="layui-inline">
+                  <label class="layui-form-label">藏品名称</label>
+                  <div class="layui-input-block" style="width: 300px">
+                      <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                  </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">藏品原名</label>
+                  <div class="layui-input-block" style="width: 300px">
+                      <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+                  </div>
+              </div>
+          </div>
+
+
+
+
+          <div class="layui-form-item" >
+              <div class="layui-inline" style="width: 400px">
+                    <label class="layui-form-label">藏品年代</label>
+                  <div class="layui-input-inline" style="width: 255px">
+                      <select name="interest" lay-filter="aihao" >
+                        <option value="" selected="">选择年代</option>
+                        <option value="旧石器时代">旧石器时代（约200万—1万年前）</option>
+                        <option value="新石器时代">新石器时代（约1万—4千年前）</option>
+                        <option value="夏">夏（前2029年-前1559年）</option>
+                        <option value="商">商（前1559年-前1046年）</option>
+                        <option value="西周">西周（前1046年-前771年）</option>
+                        <option value="东周">东周（前770年 -前256年）</option>
+                        <option value="秦">秦（前221年-前206年）</option>
+                        <option value="汉">汉（前202--220年）</option>
+                        <option value="三国">三国（220年－280年）</option>
+                        <option value="西晋">西晋（265年-316年）</option>
+                        <option value="东晋">东晋（317年-420年）</option>
+                        <option value="十六国">十六国（304年-439年）</option>
+                        <option value="南北朝">南北朝（420年—589年）</option>
+                        <option value="隋">隋（581年-619年）</option>
+                        <option value="唐">唐（618年-907年）</option>
+                        <option value="五代十国">五代十国（891年-979年）</option>
+                        <option value="宋朝">宋朝（960年-1279年）</option>
+                        <option value="辽">辽（916 年-1125年）</option>
+                        <option value="西夏">西夏（1038年-1227年）</option>
+                        <option value="金">金（1115年-1234年）</option>
+                        <option value="元">元（1271年-1368年）</option>
+                        <option value="明">明（1368年-1644年）</option>
+                        <option value="清">清（1636年到1911年）</option>
+                        <option value="民国">民国（1912年-1949年）</option>
+                        <option value="现代">现代（1949-至今）</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="layui-inline" >
+                  <label class="layui-form-label">具体年份</label>
+                  <div class="layui-input-inline">
+                      <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input" style="width: 250px">
+                  </div>
+              </div>
+          </div>
+
+            <div class="layui-form-item" >
+                <div class="layui-inline">
+                    <label class="layui-form-label">修复状态</label>
+                    <div class="layui-input-inline">
+                        <select name="modules" lay-verify="required" lay-search="">
+                            <option value="">请选择</option>
+                            <option value="已修复">已修复</option>
+                            <option value="不需修复">情况稳定,不需修复</option>
+                            <option value="可修复">部分损腐,需修复</option>
+                            <option value="急需修复">腐蚀损毁严重,急需修复</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">文物级别</label>
+                    <div class="layui-input-inline">
+                        <select name="modules" lay-verify="required" lay-search="">
+                            <option value="">请选择文物级别</option>
+                            <option value="一级">一级</option>
+                            <option value="二级">二级</option>
+                            <option value="三级">三级</option>
+                            <option value="一般">一般</option>
+                            <option value="未定级">未定级</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">完残程度</label>
+                    <div class="layui-input-inline">
+                        <select name="modules" lay-verify="required" lay-search="">
+                            <option value="">请选择</option>
+                            <option value="完整">完整</option>
+                            <option value="基本完整">基本完整</option>
+                            <option value="残缺">残缺</option>
+                            <option value="严重残缺">严重残缺(含缺失部件)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+          <div class="layui-form-item">
             <div class="layui-inline">
-              <label class="layui-form-label">验证邮箱</label>
+              <label class="layui-form-label">藏品来源</label>
               <div class="layui-input-inline">
-                <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                  <select name="modules" lay-verify="required" lay-search="">
+                      <option value="其他">其他</option>
+                      <option value="购买">购买</option>
+                      <option value="捐赠">捐赠</option>
+                      <option value="征集">征集</option>
+                      <option value="旧藏">旧藏</option>
+                      <option value="拨交">拨交</option>
+                      <option value="移交">移交</option>
+                      <option value="发掘">发掘</option>
+                      <option value="采集">采集</option>
+                      <option value="拣选">拣选</option>
+                  </select>
+              </div>
+            </div>
+
+            <div class="layui-inline">
+              <label class="layui-form-label">规格</label>
+              <div class="layui-input-inline">
+                  <select name="modules" lay-verify="required" lay-search="">
+                      <option value="">请选择</option>
+                      <option value="单件/套">单件/套</option>
+                      <option value="多件">多件</option>
+                  </select>
               </div>
             </div>
           </div>
-          
+
           <div class="layui-form-item">
             <div class="layui-inline">
-              <label class="layui-form-label">多规则验证</label>
+              <label class="layui-form-label">通长(底径)</label>
               <div class="layui-input-inline">
                 <input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input">
               </div>
             </div>
             <div class="layui-inline">
-              <label class="layui-form-label">验证日期</label>
+              <label class="layui-form-label">通宽(口径)</label>
               <div class="layui-input-inline">
-                <input type="text" name="date" id="LAY-component-form-group-date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" lay-key="1">
+                <input type="text" name="date" id="LAY-component-form-group-date1" lay-verify="date" placeholder="cm" autocomplete="off" class="layui-input" lay-key="1">
               </div>
             </div>
             <div class="layui-inline">
-              <label class="layui-form-label">验证链接</label>
+              <label class="layui-form-label">通高</label>
               <div class="layui-input-inline">
                 <input type="tel" name="url" lay-verify="url" autocomplete="off" class="layui-input">
               </div>
             </div>
           </div>
+
           
           <div class="layui-form-item">
-            <label class="layui-form-label">验证身份证</label>
-            <div class="layui-input-block">
+            <label class="layui-form-label">具体尺寸</label>
+            <div class="layui-input-block" style="width: 41%">
               <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
             </div>
           </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">自定义验证</label>
-            <div class="layui-input-inline">
-              <input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">入藏年度</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">藏品质量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="date" lay-verify="date" placeholder="kg" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
             </div>
-            <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
-          </div>
+
           
           <div class="layui-form-item">
             <div class="layui-inline">
-              <label class="layui-form-label">范围</label>
+              <label class="layui-form-label">入藏范围</label>
               <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+                <input type="text" name="price_min" placeholder="1990" autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid">-</div>
               <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+                <input type="text" name="price_max" placeholder="2019" autocomplete="off" class="layui-input">
               </div>
             </div>
           </div>
-          
-          <div class="layui-form-item">
-            <label class="layui-form-label">单行选择框</label>
-            <div class="layui-input-block">
-              <select name="interest" lay-filter="aihao">
-                <option value=""></option>
-                <option value="0">写作</option>
-                <option value="1" selected="">阅读</option>
-                <option value="2">游戏</option>
-                <option value="3">音乐</option>
-                <option value="4">旅行</option>
-              </select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择" value="阅读" readonly class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="" class="layui-select-tips">请选择</dd><dd lay-value="0" class="">写作</dd><dd lay-value="1" class="layui-this">阅读</dd><dd lay-value="2" class="">游戏</dd><dd lay-value="3" class="">音乐</dd><dd lay-value="4" class="">旅行</dd></dl></div>
-            </div>
-          </div>
-          
-          
-          <div class="layui-form-item">
-            <div class="layui-inline">
-              <label class="layui-form-label">分组选择框</label>
-              <div class="layui-input-inline">
-                <select name="quiz">
-                  <option value="">请选择问题</option>
-                  <optgroup label="城市记忆">
-                    <option value="你工作的第一个城市">你工作的第一个城市</option>
-                  </optgroup>
-                  <optgroup label="学生时代">
-                    <option value="你的工号">你的工号</option>
-                    <option value="你最喜欢的老师">你最喜欢的老师</option>
-                  </optgroup>
-                </select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择问题" value="" readonly class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit layui-select-group"><dd lay-value="" class="layui-select-tips">请选择问题</dd><dt>城市记忆</dt><dd lay-value="你工作的第一个城市" class="">你工作的第一个城市</dd><dt>学生时代</dt><dd lay-value="你的工号" class="">你的工号</dd><dd lay-value="你最喜欢的老师" class="">你最喜欢的老师</dd></dl></div>
-              </div>
-            </div>
-            <div class="layui-inline">
-              <label class="layui-form-label">搜索选择框</label>
-              <div class="layui-input-inline">
-                <select name="modules" lay-verify="required" lay-search="">
-                  <option value="">直接选择或搜索选择</option>
-                  <option value="1">layer</option>
-                  <option value="2">form</option>
-                  <option value="3">layim</option>
-                  <option value="4">element</option>
-                  <option value="5">laytpl</option>
-                  <option value="6">upload</option>
-                  <option value="7">laydate</option>
-                  <option value="8">laypage</option>
-                  <option value="9">flow</option>
-                  <option value="10">util</option>
-                  <option value="11">code</option>
-                  <option value="12">tree</option>
-                  <option value="13">layedit</option>
-                  <option value="14">nav</option>
-                  <option value="15">tab</option>
-                  <option value="16">table</option>
-                  <option value="17">select</option>
-                  <option value="18">checkbox</option>
-                  <option value="19">switch</option>
-                  <option value="20">radio</option>
-                </select><div class="layui-form-select"><div class="layui-select-title"><input type="text" placeholder="直接选择或搜索选择" value="" class="layui-input"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="" class="layui-select-tips">直接选择或搜索选择</dd><dd lay-value="1" class="">layer</dd><dd lay-value="2" class="">form</dd><dd lay-value="3" class="">layim</dd><dd lay-value="4" class="">element</dd><dd lay-value="5" class="">laytpl</dd><dd lay-value="6" class="">upload</dd><dd lay-value="7" class="">laydate</dd><dd lay-value="8" class="">laypage</dd><dd lay-value="9" class="">flow</dd><dd lay-value="10" class="">util</dd><dd lay-value="11" class="">code</dd><dd lay-value="12" class="">tree</dd><dd lay-value="13" class="">layedit</dd><dd lay-value="14" class="">nav</dd><dd lay-value="15" class="">tab</dd><dd lay-value="16" class="">table</dd><dd lay-value="17" class="">select</dd><dd lay-value="18" class="">checkbox</dd><dd lay-value="19" class="">switch</dd><dd lay-value="20" class="">radio</dd></dl></div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="layui-form-item">
-            <label class="layui-form-label">联动选择框</label>
-            <div class="layui-input-block">
-              <div class="layui-inline">
-                <select name="quiz1">
-                  <option value="">请选择省</option>
-                  <option value="浙江" selected="">浙江省</option>
-                  <option value="你的工号">江西省</option>
-                  <option value="你最喜欢的老师">福建省</option>
-                </select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择省" value="浙江省" readonly class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="" class="layui-select-tips">请选择省</dd><dd lay-value="浙江" class="layui-this">浙江省</dd><dd lay-value="你的工号" class="">江西省</dd><dd lay-value="你最喜欢的老师" class="">福建省</dd></dl></div>
-              </div>
-              <div class="layui-inline">
-                <select name="quiz2">
-                  <option value="">请选择市</option>
-                  <option value="杭州">杭州</option>
-                  <option value="宁波" disabled="">宁波</option>
-                  <option value="温州">温州</option>
-                  <option value="温州">台州</option>
-                  <option value="温州">绍兴</option>
-                </select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择市" value="" readonly class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="" class="layui-select-tips">请选择市</dd><dd lay-value="杭州" class="">杭州</dd><dd lay-value="宁波" class=" layui-disabled">宁波</dd><dd lay-value="温州" class="">温州</dd><dd lay-value="温州" class="">台州</dd><dd lay-value="温州" class="">绍兴</dd></dl></div>
-              </div>
-              <div class="layui-inline">
-                <select name="quiz3">
-                  <option value="">请选择县/区</option>
-                  <option value="西湖区">西湖区</option>
-                  <option value="余杭区">余杭区</option>
-                  <option value="拱墅区">临安市</option>
-                </select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择县/区" value="" readonly class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="" class="layui-select-tips">请选择县/区</dd><dd lay-value="西湖区" class="">西湖区</dd><dd lay-value="余杭区" class="">余杭区</dd><dd lay-value="拱墅区" class="">临安市</dd></dl></div>
-              </div>
-              <div class="layui-inline">
-                <div class="layui-form-mid layui-word-aux">此处只是演示联动排版，并未做联动交互</div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="layui-form-item">
-            <label class="layui-form-label">复选框</label>
-            <div class="layui-input-block">
-              <input type="checkbox" name="like[write]" title="写作"><div class="layui-unselect layui-form-checkbox"><span>写作</span><i class="layui-icon layui-icon-ok"></i></div>
-              <input type="checkbox" name="like[read]" title="阅读" checked=""><div class="layui-unselect layui-form-checkbox layui-form-checked"><span>阅读</span><i class="layui-icon layui-icon-ok"></i></div>
-              <input type="checkbox" name="like[game]" title="游戏"><div class="layui-unselect layui-form-checkbox"><span>游戏</span><i class="layui-icon layui-icon-ok"></i></div>
-            </div>
-          </div>
-          
-          <div class="layui-form-item" pane="">
-            <label class="layui-form-label">原始复选框</label>
-            <div class="layui-input-block">
-              <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked=""><div class="layui-unselect layui-form-checkbox layui-form-checked" lay-skin="primary"><span>写作</span><i class="layui-icon layui-icon-ok"></i></div>
-              <input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读"><div class="layui-unselect layui-form-checkbox" lay-skin="primary"><span>阅读</span><i class="layui-icon layui-icon-ok"></i></div>
-              <input type="checkbox" name="like1[game]" lay-skin="primary" title="游戏" disabled=""><div class="layui-unselect layui-form-checkbox layui-checkbox-disbaled layui-disabled" lay-skin="primary"><span>游戏</span><i class="layui-icon layui-icon-ok"></i></div>
-            </div>
-          </div>
-          
-          <div class="layui-form-item">
-            <label class="layui-form-label">开关-默认关</label>
-            <div class="layui-input-block">
-              <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF"><div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>OFF</em><i></i></div>
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">开关-默认开</label>
-            <div class="layui-input-block">
-              <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="ON|OFF"><div class="layui-unselect layui-form-switch layui-form-onswitch" lay-skin="_switch"><em>ON</em><i></i></div>
-            </div>
-          </div>
-          <div class="layui-form-item">
-            <label class="layui-form-label">单选框</label>
-            <div class="layui-input-block">
-              <input type="radio" name="sex" value="男" title="男" checked=""><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon"></i><div>男</div></div>
-              <input type="radio" name="sex" value="女" title="女"><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>女</div></div>
-              <input type="radio" name="sex" value="禁" title="禁用" disabled=""><div class="layui-unselect layui-form-radio layui-radio-disbaled layui-disabled"><i class="layui-anim layui-icon"></i><div>禁用</div></div>
-            </div>
-          </div>
-          <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">普通文本域</label>
+
+          <div class="layui-form-item layui-form-text" style="width: 41%">
+            <label class="layui-form-label">基本描述</label>
             <div class="layui-input-block">
               <textarea name="text" placeholder="请输入内容" class="layui-textarea"></textarea>
             </div>
-          </div>        
+          </div>
+
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                <legend>藏品图片上传</legend>
+            </fieldset>
+
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test2">多图片上传</button>
+                <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                    预览图：
+                    <div class="layui-upload-list" id="demo2"></div>
+                </blockquote>
+            </div>
+
           <div class="layui-form-item layui-layout-admin">
             <div class="layui-input-block">
               <div class="layui-footer" style="left: 0;">
@@ -261,15 +284,19 @@
     </div>
   </div>
 
-    
+  <script src="/admin/layui/layui.js" charset="utf-8"></script>
+  <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
   <script>
+
   layui.config({
     base: '../../../layuiadmin/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index', 'form', 'laydate'], function(){
+  }).use(['index', 'form', 'laydate','upload'], function(){
     var $ = layui.$
     ,admin = layui.admin
+    ,upload = layui.upload
     ,element = layui.element
     ,layer = layui.layer
     ,laydate = layui.laydate
@@ -280,7 +307,21 @@
     laydate.render({
       elem: '#LAY-component-form-group-date'
     });
-    
+      //多图片上传
+      upload.render({
+          elem: '#test2'
+          ,url: '/upload/'
+          ,multiple: true
+          ,before: function(obj){
+              //预读本地文件示例，不支持ie8
+              obj.preview(function(index, file, result){
+                  $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
+              });
+          }
+          ,done: function(res){
+              //上传完毕
+          }
+      });
     /* 自定义验证规则 */
     form.verify({
       title: function(value){
