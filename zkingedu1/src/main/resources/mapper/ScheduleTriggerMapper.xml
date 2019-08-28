@@ -13,9 +13,9 @@
   <sql id="Base_Column_List" >
     id, cron, status, job_name, job_group
   </sql>
-  <select id="queryScheduleTrigger" resultType="ScheduleTrigger">
-    select *
-    from t_schedule_trigger
-  </select>
+  <!--<select id="queryScheduleTrigger" resultType="ScheduleTrigger">-->
+    <!--select *-->
+    <!--from t_schedule_trigger-->
+  <!--</select>-->
 
 </mapper>
