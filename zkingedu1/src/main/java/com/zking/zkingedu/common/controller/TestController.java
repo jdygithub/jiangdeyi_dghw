@@ -20,7 +20,7 @@ public class TestController {
     @RequestMapping("/add")
     public String test(HttpServletRequest request){
 
-        return "jdy/addcollection";
+        return "jdy/getcollection";
     }
 
 

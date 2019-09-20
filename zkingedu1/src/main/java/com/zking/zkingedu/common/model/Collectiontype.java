@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 藏品类别表
@@ -15,5 +16,6 @@ public class Collectiontype implements Serializable {
     private Integer collectiontypeid;//藏品类别ID
     private String collectiontypename;//藏品类别名称 画/玉器/铜器
     private Integer collectionparenttypeid;//藏品父类别ID
+    private List<Collectiontype> types;  //子类别
 
 }

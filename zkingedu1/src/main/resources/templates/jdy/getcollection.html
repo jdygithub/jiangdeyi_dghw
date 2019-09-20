@@ -22,16 +22,14 @@
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  
+
   <body class="form-wrap" >
 
-  <div class="layui-fluid">
-    <div class="layui-card">
-      <div class="layui-card-header" style="text-align:center"><span style="font-family:FZShuTi;font-size: 35px;">大观文化</span></div>
-        <fieldset class="layui-elem-field" style="margin-top: 10px">
-            <legend><span style="font-family:FZYaoti;font-size: 25px;">藏品录入</span></legend>
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <fieldset class="layui-elem-field" style="margin-top: 10px">
+                <legend><span style="font-family:FZYaoti;font-size: 25px;">藏品详细信息</span></legend>
             <div class="layui-field-box">
-
                 <div class="layui-card-body" style="padding: 15px;">
 
                     <form class="layui-form" action="" lay-filter="component-form-group">
@@ -80,10 +78,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
                         <div class="layui-form-item" >
                             <div class="layui-inline" style="width: 400px">
                                 <label class="layui-form-label">藏品年代</label>
@@ -190,7 +184,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">规格</label>
                                 <div class="layui-input-inline">
-                                    <select name="collectioncount" lay-verify="required" lay-search="">
+                                    <select name="collectioncount" lay-verify="required" lay-search="" style="color:#ff0000">
                                         <option value="">请选择</option>
                                         <option value="单件/套">单件/套</option>
                                         <option value="多件">多件</option>
@@ -219,13 +213,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
-
                         <div class="layui-form-item">
                             <div class="layui-inline">
                                 <label class="layui-form-label">具体尺寸</label>
@@ -271,34 +258,24 @@
                         </div>
 
                         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                            <legend>藏品图片上传</legend>
+                            <legend>藏品图片</legend>
                         </fieldset>
 
                         <div class="layui-upload">
-                            <button type="button" class="layui-btn" id="test2">多图片上传</button>
+                            <!--<button type="button" class="layui-btn" id="test2">多图片上传</button>-->
                             <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
                                 预览图：
-                                <div class="layui-upload-list" id="demo2"></div>
-                            </blockquote>
-                        </div>
-
-                        <div class="layui-form-item layui-layout-admin">
-                            <div class="layui-input-block">
-                                <div class="layui-footer" style="left: 0;">
-                                    <button class="layui-btn" lay-submit="" lay-filter="component-form-demo1">立即提交</button>
-                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                <div class="layui-upload-list" id="demo2">
+                                    <img  src="/admin/images/pic/2.png" height="300" width="300"/>
                                 </div>
-                            </div>
+                            </blockquote>
                         </div>
                     </form>
                 </div>
-
             </div>
-        </fieldset>
-
-
+            </fieldset>
+        </div>
     </div>
-  </div>
 
   <!--<script src="/admin/layui/layui.js" charset="utf-8"></script>-->
   <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
@@ -310,93 +287,72 @@
         ,layer = layui.layer
     ,laydate = layui.laydate
     ,form = layui.form;
-
-    // form.render(null, 'component-form-group');
-    //
-    // laydate.render({
-    //   elem: '#LAY-component-form-group-date'
-    // });
-      //多图片上传
-      upload.render({
-          elem: '#test2'
-          ,url: '/upload/'
-          ,multiple: true
-          ,before: function(obj){
-              //预读本地文件示例，不支持ie8
-              obj.preview(function(index, file, result){
-                  $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
-              });
-          }
-          ,done: function(res){
-              //上传完毕
+      var collectionid = [[${collectionid}]]
+      $.ajax({
+          url:'/collections/getcollection',
+          type:'post',
+          data:{
+              collectionid:collectionid
+          },
+          success:function (result) {
+              // layer.alert(result.collectionnotype)
+              //表单初始赋值
+              form.val('component-form-group', {
+                  "collectionnotype": result.collectionnotype
+                  ,"collectionno":result.collectionno //     ,"collectionno":"编号"
+                  ,"collectionname":result.collectionname  //     ,"collectionname":"名称"
+                  ,"collectionyear":result.collectionyear   //     ,"collectionyear":"旧石器时代"
+                  ,"collectiontypeid":result.collectiontypeid // 藏品类别ID
+                  ,"collectionlevel":result.collectionlevel //     ,"collectionlevel":"二级"
+                  ,"collectiondisability":result.collectiondisability  //     ,"collectiondisability":"严重残缺"
+                  ,"collectionpreservation":result.collectionpreservation     //     ,"collectionpreservation":"不需修复"
+                  ,"collectiondiameter":result.collectiondiameter    //     ,"collectiondiameter":"100"
+                  ,"collectionbore":result.collectionbore     //     ,"collectionbore":"100"
+                  ,"collectionhigh":result.collectionhigh      //     ,"collectionhigh":"100"
+                  ,"collectionsize":result.collectionsize    //     ,"collectionsize":"100*100*100"
+                  ,"collectionoldname":result.collectionoldname        //     ,"collectionoldname":"原名"
+                  ,"collectionsource":result.collectionsource        //     ,"collectionsource":"征集"
+                  ,"collectionremark":result.collectionremark   //     ,"collectionremark":"描述"
+                  ,"collectioncount":result.collectioncount        //     ,"collectioncount":"单件/套"
+                  ,"collectionmass":result.collectionmass//     ,"collectionmass":"50"
+                  ,"collectioninyear":result.collectioninyear   //     ,"collectioninyear":"2019"
+                  ,"collectionjtyear":result.collectionjtyear //     ,"collectionjtyear":"1990"
+              })
+              layui.$('input').attr('disabled',true);
+              layui.$('textarea').attr('disabled',true);
+              layui.form.render();
+              var text = "";
+              // layer.alert(JSON.stringify(result.getimages))
+              $.each(result.getimages, function (i, obj) {
+                  text +='<img onclick="show_img(this)"  src="'+obj.image+'" height="300" width="300"/>'
+              })
+              $('#demo2').html(text);
+          },
+          error:function () {
+              layer.msg("出现bug了，请联系921607915")
           }
       });
-    /* 自定义验证规则 */
-    // form.verify({
-    //   title: function(value){
-    //     if(value.length < 5){
-    //       return '标题至少得5个字符啊';
-    //     }
-    //   }
-    //   ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-    //   ,content: function(value){
-    //     layedit.sync(editIndex);
-    //   }
-    // });
 
 
 
-    /* 监听提交
-    * */
-
-    form.on('submit(component-form-demo1)', function(data){
-      // parent.layer.alert(JSON.stringify(data.field), {
-      //   title: '最终的提交信息'
-      // });
-      //   layer.alert(JSON.stringify(data.field.collectionnotype));
-        $.ajax({
-            datatype: "json",
-            type: "post",
-            url: "/collections/addcollection",
-            data: {
-                // jsons:JSON.stringify(data.field),
-                collectionnotype:data.field.collectionnotype// {"collectionnotype":"藏品总登记号"
-                ,collectionno:data.field.collectionno //     ,"collectionno":"编号"
-                ,collectionname:data.field.collectionname  //     ,"collectionname":"名称"
-                ,collectionyear:data.field.collectionyear   //     ,"collectionyear":"旧石器时代"
-                ,collectiontypeid:data.field.collectiontypeid // 藏品类别ID
-                ,collectionlevel:data.field.collectionlevel //     ,"collectionlevel":"二级"
-                ,collectiondisability:data.field.collectiondisability  //     ,"collectiondisability":"严重残缺"
-                ,collectionpreservation:data.field.collectionpreservation     //     ,"collectionpreservation":"不需修复"
-                ,collectiondiameter:data.field.collectiondiameter    //     ,"collectiondiameter":"100"
-                ,collectionbore:data.field.collectionbore     //     ,"collectionbore":"100"
-                ,collectionhigh:data.field.collectionhigh      //     ,"collectionhigh":"100"
-                ,collectionsize:data.field.collectionsize    //     ,"collectionsize":"100*100*100"
-                ,collectionoldname:data.field.collectionoldname        //     ,"collectionoldname":"原名"
-                ,collectionsource:data.field.collectionsource        //     ,"collectionsource":"征集"
-                ,collectionremark:data.field.collectionremark   //     ,"collectionremark":"描述"
-                ,collectioncount:data.field.collectioncount        //     ,"collectioncount":"单件/套"
-                ,collectionmass:data.field.collectionmass//     ,"collectionmass":"50"
-                ,collectioninyear:data.field.collectioninyear   //     ,"collectioninyear":"2019"
-                ,collectionjtyear:data.field.collectionjtyear //     ,"collectionjtyear":"1990"
-                // ,createdtime:data.field.createdtime 创建时间
-                // ,modifiedTime:data.field.modifiedTime修改时间
-                ,empid:1//添加用户信息
-                // ,collectionaddresscode:data.field.collectionaddresscode存放地址编码
-                ,collectionstatus:0//状态  添加默认为下架状态  审核通过后修改为上架状态
-            },
-            success: function (result) {//添加藏品过后生成的ID  用来添加图片表的
-                layer.alert(result);
-            },
-            error: function () {
-                layer.msg("出现bug了，请联系大观文化工作人员,电话:52288888")
-            }
-        });
-      return false;
-    });
   });
+  //显示大图片
+  function show_img(t) {
+      var t1 = $(t).find("img");
+      //页面层
+      layer.open({
+          type: 1,
+          skin: 'layui-layer-rim', //加上边框
+          area: ['80%', '80%'], //宽高
+          shadeClose: true, //开启遮罩关闭
+          end: function (index, layero) {
+              return false;
+          },
+          content: '<div style="text-align:center"><img src="' + $(t).attr('src') + '" /></div>'
+      });
+  }
 
-  </script>
+      </script>
 
 
 </body>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zking.zkingedu.common.dao.CollectiontypeDao">
+
+    <!--查询所有类别-->
+    <select id="getalltypes" resultType="Collectiontype">
+        select collectiontypeid,collectiontypename,collectionparenttypeid from collectiontype
+    </select>
+    <!--查询所有父类-->
+    <select id="gettypeo" resultType="Collectiontype">
+        select collectiontypeid,collectiontypename,collectionparenttypeid from collectiontype where collectionparenttypeid = 0
+    </select>
+    <!--添加类别  -->
+    <insert id="addtype" >
+        insert into collectiontype(collectiontypename,collectionparenttypeid)
+        values(#{collectiontypename},#{collectionparenttypeid});
+    </insert>
+    <!--删除类别-->
+    <delete id="deltype" parameterType="_int">
+        DELETE FROM collectiontype WHERE collectiontypeid=#{collectiontypeid}
+    </delete>
+    <!--修改类别名称-->
+    <update id="updatetype">
+        UPDATE collectiontype SET collectiontypename=#{collectiontypename}
+        WHERE collectiontypeid=#{collectiontypeid}
+    </update>
+    <!--查询父类还有没有子类-->
+    <select id="exitid" resultType="_int">
+        select COUNT(collectiontypename) from collectiontype where collectionparenttypeid = #{collectiontypeid}
+    </select>
+
+</mapper>

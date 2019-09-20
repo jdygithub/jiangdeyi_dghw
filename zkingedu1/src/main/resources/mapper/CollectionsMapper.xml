@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zking.zkingedu.common.dao.CollectionsDao">
+
+    <!--菜单接口Mapper-->
+    <!--<select id="getmenus" resultType="menu">-->
+        <!--select DISTINCT e.* from t_emp a,t_role b,t_emp_role c,t_menu_role d,t_menu e-->
+        <!--where a.emp_id=c.emp_id and b.role_id=c.role_id-->
+        <!--and d.menu_id = e.menu_id and d.role_id = b.role_id-->
+        <!--<if test="empid!=null">-->
+             <!--and a.emp_id = #{empid}-->
+        <!--</if>-->
+    <!--</select>-->
+    <!--添加藏品  返回主键-->
+    <insert id="addcollection" useGeneratedKeys="true" keyProperty="collectionid" keyColumn="collectionid" parameterType="Collections">
+        insert into collections(collectionnotype,collectionno,collectionname,collectionyear,collectiontypeid,collectionlevel,collectiondisability,collectionpreservation
+        ,collectiondiameter,collectionbore,collectionhigh,collectionsize,collectionoldname,collectionsource,collectionremark,collectioncount,collectionmass,collectioninyear
+        ,collectionjtyear,createdtime,auditstatus,empid,collectionaddresscode,collectionstatus)
+        values(#{Collections.collectionnotype},#{Collections.collectionno},#{Collections.collectionname},#{Collections.collectionyear},#{Collections.collectiontypeid}
+        ,#{Collections.collectionlevel},#{Collections.collectiondisability},#{Collections.collectionpreservation},#{Collections.collectiondiameter}
+        ,#{Collections.collectionbore},#{Collections.collectionhigh},#{Collections.collectionsize},#{Collections.collectionoldname},#{Collections.collectionsource}
+        ,#{Collections.collectionremark},#{Collections.collectioncount},#{Collections.collectionmass},#{Collections.collectioninyear},#{Collections.collectionjtyear}
+        ,#{Collections.createdtime},#{Collections.auditstatus},#{Collections.empid},#{Collections.collectionaddresscode},#{Collections.collectionstatus});
+    </insert>
+    <!--删除藏品-->
+    <delete id="delcollection" parameterType="map">
+        delete from collections where collectionid in (${collectionid})
+    </delete>
+    <!--查询藏品-->
+    <select id="getcollections" resultType="map" parameterType="map">
+        select collectionid,collectionnotype,collectionno,collectionname,collectionyear,collections.collectiontypeid,collectiontypename,collectionlevel,collectiondisability,collectionpreservation
+        ,collectiondiameter,collectionbore,collectionhigh,collectionsize,collectionoldname,collectionsource,collectionremark,collectioncount,collectionmass,collectioninyear
+        ,collectionjtyear,createdtime,auditstatus,empid,collectionaddresscode,collectionstatus from collections left join collectiontype on collections.collectiontypeid = collectiontype.collectiontypeid
+        <where>
+            <if test="null!=typeid and ''!=typeid">
+                and collections.collectiontypeid = #{typeid}
+            </if>
+            <if test="null!=status and ''!=status">
+               and auditstatus = #{status}
+            </if>
+            <if test="null!=repair and ''!=repair">
+                and collectionpreservation in ('可修复','急需修复')
+            </if>
+            <if test="null!=str and ''!=str">
+               and (collectionnotype like '%${str}%'
+               <if test="repair==null and ''==repair">
+                   or collectionid like '%${str}%'
+                   or collectionno like '%${str}%'
+                   or collectionname like '%${str}%'
+                   or collectionyear like '%${str}%'
+                   or collectiontypename like '%${str}%'
+                   or collectionlevel like '%${str}%'
+               </if>
+                <if test="null!=repair and ''!=repair">
+                    or collectionid like '%${str}%'
+                    or collectionno like '%${str}%'
+                    or collectionname like '%${str}%'
+                </if>
+                )
+            </if>
+        </where>
+    </select>
+
+
+    <!--修改藏品-->
+    <update id="updatecollection" parameterType="map">
+        update collections <set>
+        <if test="null!=collectionnotype and ''!=collectionnotype">
+            collectionnotype=#{collectionnotype},
+        </if>
+        <if test="null!=collectionno and ''!=collectionno">
+            collectionno=#{collectionno},
+        </if>
+        <if test="null!=collectionname and ''!=collectionname">
+            collectionname=#{collectionname},
+        </if>
+        <if test="null!=collectionyear and ''!=collectionyear">
+            collectionyear=#{collectionyear},
+        </if>
+        <if test="null!=collectiontypeid and ''!=collectiontypeid">
+            collectiontypeid=#{collectiontypeid},
+        </if>
+        <if test="null!=collectionlevel and ''!=collectionlevel">
+            collectionlevel=#{collectionlevel},
+        </if>
+        <if test="null!=collectiondisability and ''!=collectiondisability">
+            collectiondisability=#{collectiondisability},
+        </if>
+        <if test="null!=collectionpreservation and ''!=collectionpreservation">
+            collectionpreservation=#{collectionpreservation},
+        </if>
+        <if test="null!=collectiondiameter and ''!=collectiondiameter">
+            collectiondiameter=#{collectiondiameter},
+        </if>
+        <if test="null!=collectionbore and ''!=collectionbore">
+            collectionbore=#{collectionbore},
+        </if>
+        <if test="null!=collectionhigh and ''!=collectionhigh">
+            collectionhigh=#{collectionhigh},
+        </if>
+        <if test="null!=collectionsize and ''!=collectionsize">
+            collectionsize=#{collectionsize},
+        </if>
+        <if test="null!=collectionoldname and ''!=collectionoldname">
+            collectionoldname=#{collectionoldname},
+        </if>
+        <if test="null!=collectionsource and ''!=collectionsource">
+            collectionsource=#{collectionsource},
+        </if>
+        <if test="null!=collectionremark and ''!=collectionremark">
+            collectionremark=#{collectionremark},
+        </if>
+        <if test="null!=collectioncount and ''!=collectioncount">
+            collectioncount=#{collectioncount},
+        </if>
+        <if test="null!=collectionmass and ''!=collectionmass">
+            collectionmass=#{collectionmass},
+        </if>
+        <if test="null!=collectioninyear and ''!=collectioninyear">
+            collectioninyear=#{collectioninyear},
+        </if>
+        <if test="null!=collectionjtyear and ''!=collectionjtyear">
+            collectionjtyear=#{collectionjtyear},
+        </if>
+        <if test="null!=createdtime and ''!=createdtime">
+            createdtime=#{createdtime},
+        </if>
+        <if test="null!=collectionaddresscode and ''!=collectionaddresscode">
+            collectionaddresscode=#{collectionaddresscode},
+        </if>
+        <if test="null!=collectionstatus and ''!=collectionstatus">
+            collectionstatus=#{collectionstatus}
+        </if>
+        <if test="null!=empid and ''!=empid">
+            empid=#{empid},
+        </if>
+        <if test="null!=auditstatus and ''!=auditstatus">
+            auditstatus=#{auditstatus},
+        </if>
+    </set>
+        where collectionid in (${collectionid})
+    </update>
+
+
+    <select id="getcollection" resultType="map" parameterType="map">
+        select collectionid,collectionnotype,collectionno,collectionname,collectionyear,collectiontypeid,collectionlevel,collectiondisability,collectionpreservation
+        ,collectiondiameter,collectionbore,collectionhigh,collectionsize,collectionoldname,collectionsource,collectionremark,collectioncount,collectionmass,collectioninyear
+        ,collectionjtyear,createdtime,auditstatus,empid,collectionaddresscode,collectionstatus from  collections where collectionid=#{collectionid}
+    </select>
+
+    <select id="getimages" resultType="map" parameterType="map">
+        select imageid,collectionid,image from collectionimage
+        <where>
+            <if test="null!=collectionid and ''!=collectionid">
+                collectionid=#{collectionid}
+            </if>
+        </where>
+    </select>
+
+
+
+
+</mapper>

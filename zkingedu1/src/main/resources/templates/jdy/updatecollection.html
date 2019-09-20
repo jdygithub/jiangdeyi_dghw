@@ -27,9 +27,8 @@
 
   <div class="layui-fluid">
     <div class="layui-card">
-      <div class="layui-card-header" style="text-align:center"><span style="font-family:FZShuTi;font-size: 35px;">大观文化</span></div>
         <fieldset class="layui-elem-field" style="margin-top: 10px">
-            <legend><span style="font-family:FZYaoti;font-size: 25px;">藏品录入</span></legend>
+            <legend><span style="font-family:FZYaoti;font-size: 25px;">修改藏品</span><span style="font-family:FZYaoti;font-size: 15px;">(只填写需要修改的字段,不用全部全部填写重复的内容)</span></legend>
             <div class="layui-field-box">
 
                 <div class="layui-card-body" style="padding: 15px;">
@@ -41,7 +40,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">编号类型</label>
                                 <div class="layui-input-inline">
-                                    <select name="collectionnotype" lay-verify="required" lay-search="">
+                                    <select name="collectionnotype"  lay-search="">
                                         <option value="">请选择</option>
                                         <option value="藏品总登记号">藏品总登记号</option>
                                         <option value="辅助账号">辅助账号</option>
@@ -58,7 +57,7 @@
                             <div class="layui-inline" >
                                 <label class="layui-form-label">藏品编号</label>
                                 <div class="layui-input-inline">
-                                    <input type="tel" name="collectionno" lay-verify="required" autocomplete="off" class="layui-input" style="width: 400px">
+                                    <input type="tel" name="collectionno"  autocomplete="off" class="layui-input" style="width: 400px">
                                 </div>
                             </div>
 
@@ -70,7 +69,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">藏品名称</label>
                                 <div class="layui-input-block" style="width: 300px">
-                                    <input type="text" name="collectionname" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+                                    <input type="text" name="collectionname"  placeholder="" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
@@ -130,7 +129,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">修复状态</label>
                                 <div class="layui-input-inline">
-                                    <select name="collectionpreservation" lay-verify="required" lay-search="">
+                                    <select name="collectionpreservation"  lay-search="">
                                         <option value="">请选择</option>
                                         <option value="已修复">已修复</option>
                                         <option value="不需修复">情况稳定,不需修复</option>
@@ -143,7 +142,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">文物级别</label>
                                 <div class="layui-input-inline">
-                                    <select name="collectionlevel" lay-verify="required" lay-search="">
+                                    <select name="collectionlevel"  lay-search="">
                                         <option value="">请选择文物级别</option>
                                         <option value="一级">一级</option>
                                         <option value="二级">二级</option>
@@ -157,7 +156,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">完残程度</label>
                                 <div class="layui-input-inline">
-                                    <select name="collectiondisability" lay-verify="required" lay-search="">
+                                    <select name="collectiondisability"  lay-search="">
                                         <option value="">请选择</option>
                                         <option value="完整">完整</option>
                                         <option value="基本完整">基本完整</option>
@@ -172,7 +171,8 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">藏品来源</label>
                                 <div class="layui-input-inline">
-                                    <select name="collectionsource" lay-verify="required" lay-search="">
+                                    <select name="collectionsource" lay-search="">
+                                        <option value="">请选择</option>
                                         <option value="其他">其他</option>
                                         <option value="购买">购买</option>
                                         <option value="捐赠">捐赠</option>
@@ -190,7 +190,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">规格</label>
                                 <div class="layui-input-inline">
-                                    <select name="collectioncount" lay-verify="required" lay-search="">
+                                    <select name="collectioncount"  lay-search="">
                                         <option value="">请选择</option>
                                         <option value="单件/套">单件/套</option>
                                         <option value="多件">多件</option>
@@ -203,29 +203,22 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">通长(底径)</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="collectiondiameter" lay-verify="number" placeholder="cm" autocomplete="off" class="layui-input">
+                                    <input type="text" name="collectiondiameter"  placeholder="cm" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">通宽(口径)</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="collectionbore"  lay-verify="number" placeholder="cm" autocomplete="off" class="layui-input" >
+                                    <input type="text" name="collectionbore"   placeholder="cm" autocomplete="off" class="layui-input" >
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">通高</label>
                                 <div class="layui-input-inline">
-                                    <input type="tel" name="collectionhigh" lay-verify="number" placeholder="cm" autocomplete="off" class="layui-input">
+                                    <input type="tel" name="collectionhigh"  placeholder="cm" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
-
                         <div class="layui-form-item">
                             <div class="layui-inline">
                                 <label class="layui-form-label">具体尺寸</label>
@@ -236,7 +229,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">藏品类型</label>
                                 <div class="layui-input-inline">
-                                    <select name="collectiontypeid" lay-verify="required">
+                                    <select name="collectiontypeid" >
                                         <option value="">请选择藏品类型</option>
                                         <optgroup label="文物" th:each="item:${session.typelist}" th:label="${item.collectiontypename}">
                                             <option value="8" th:each="itema:${item.types}" th:value="${itema.collectiontypeid}" th:text="${itema.collectiontypename}">历史文物</option>
@@ -251,13 +244,13 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">入藏年度</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="collectioninyear" lay-verify="number" autocomplete="off" class="layui-input">
+                                    <input type="text" name="collectioninyear"  autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label">藏品质量</label>
                                 <div class="layui-input-inline">
-                                    <input type="text" name="collectionmass" lay-verify="number" placeholder="kg" autocomplete="off" class="layui-input">
+                                    <input type="text" name="collectionmass"  placeholder="kg" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                         </div>
@@ -269,34 +262,19 @@
                                 <textarea name="collectionremark" placeholder="请输入内容" class="layui-textarea"></textarea>
                             </div>
                         </div>
-
-                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                            <legend>藏品图片上传</legend>
-                        </fieldset>
-
-                        <div class="layui-upload">
-                            <button type="button" class="layui-btn" id="test2">多图片上传</button>
-                            <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
-                                预览图：
-                                <div class="layui-upload-list" id="demo2"></div>
-                            </blockquote>
-                        </div>
-
                         <div class="layui-form-item layui-layout-admin">
                             <div class="layui-input-block">
                                 <div class="layui-footer" style="left: 0;">
-                                    <button class="layui-btn" lay-submit="" lay-filter="component-form-demo1">立即提交</button>
-                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                    <button class="layui-btn" lay-submit="" lay-filter="component-form-demo1">修改</button>
                                 </div>
                             </div>
                         </div>
+
                     </form>
                 </div>
 
             </div>
         </fieldset>
-
-
     </div>
   </div>
 
@@ -316,21 +294,7 @@
     // laydate.render({
     //   elem: '#LAY-component-form-group-date'
     // });
-      //多图片上传
-      upload.render({
-          elem: '#test2'
-          ,url: '/upload/'
-          ,multiple: true
-          ,before: function(obj){
-              //预读本地文件示例，不支持ie8
-              obj.preview(function(index, file, result){
-                  $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
-              });
-          }
-          ,done: function(res){
-              //上传完毕
-          }
-      });
+
     /* 自定义验证规则 */
     // form.verify({
     //   title: function(value){
@@ -348,7 +312,7 @@
 
     /* 监听提交
     * */
-
+      var collectionid = [[${collectionid}]] //藏品ID
     form.on('submit(component-form-demo1)', function(data){
       // parent.layer.alert(JSON.stringify(data.field), {
       //   title: '最终的提交信息'
@@ -357,10 +321,10 @@
         $.ajax({
             datatype: "json",
             type: "post",
-            url: "/collections/addcollection",
+            url: "/collections/updatecollection",
             data: {
-                // jsons:JSON.stringify(data.field),
-                collectionnotype:data.field.collectionnotype// {"collectionnotype":"藏品总登记号"
+                collectionid:collectionid
+                ,collectionnotype:data.field.collectionnotype// {"collectionnotype":"藏品总登记号"
                 ,collectionno:data.field.collectionno //     ,"collectionno":"编号"
                 ,collectionname:data.field.collectionname  //     ,"collectionname":"名称"
                 ,collectionyear:data.field.collectionyear   //     ,"collectionyear":"旧石器时代"
@@ -381,12 +345,20 @@
                 ,collectionjtyear:data.field.collectionjtyear //     ,"collectionjtyear":"1990"
                 // ,createdtime:data.field.createdtime 创建时间
                 // ,modifiedTime:data.field.modifiedTime修改时间
-                ,empid:1//添加用户信息
+                // ,empid:1//添加用户信息
                 // ,collectionaddresscode:data.field.collectionaddresscode存放地址编码
-                ,collectionstatus:0//状态  添加默认为下架状态  审核通过后修改为上架状态
+                // ,collectionstatus:0//状态  添加默认为下架状态  审核通过后修改为上架状态
             },
             success: function (result) {//添加藏品过后生成的ID  用来添加图片表的
-                layer.alert(result);
+                if(result!='ok'){
+                    layer.msg("出现巨大的bug，请联系9527")
+                }else{
+                    layer.msg("修改成功",{icon: 1,time: 700});
+                    // location.replace(location.href);
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                    parent.layer.close(index); //再执行关闭
+                }
             },
             error: function () {
                 layer.msg("出现bug了，请联系大观文化工作人员,电话:52288888")
