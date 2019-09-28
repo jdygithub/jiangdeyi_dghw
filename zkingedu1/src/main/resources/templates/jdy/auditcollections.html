@@ -6,6 +6,8 @@
 </head>
 <link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}"/>
 <script th:src="@{/admin/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript" src="/admin/js/xadmin.js"></script>
+<script src="/admin/js/jquery.min.js"></script>
 <body>
 <style  type="text/css" >
     .layui-table-cell {
@@ -128,8 +130,7 @@
                 //     }}
 
                 ,{align:'center', field: 'image',title: '图片',templet: function(d){
-                        return '<div><img src="'+d.image+'" alt="无图片" width="170px" height="100px"></a></div>';
-                        // return '<div onclick="show_img(this)"><img src="'+d.image+'" alt="无图片" width="170px" height="100px"></a></div>';
+                        return '<div><img onclick="show_img(this)" style="cursor:pointer" src="'+d.image+'" alt="无图片" width="170px" height="100px"></a></div>';
                     }}
                 // ,{field:'image',align:'center', title: '图片',templet: '#images'}
                 // ,{field:'collectionstatus',align:'center', title: '状态',templet: '#switchTpl', unresize: true,width:100}

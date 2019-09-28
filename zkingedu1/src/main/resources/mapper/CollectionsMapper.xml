@@ -132,9 +132,6 @@
         <if test="null!=collectionstatus and ''!=collectionstatus">
             collectionstatus=#{collectionstatus}
         </if>
-        <if test="null!=empid and ''!=empid">
-            empid=#{empid},
-        </if>
         <if test="null!=auditstatus and ''!=auditstatus">
             auditstatus=#{auditstatus},
         </if>

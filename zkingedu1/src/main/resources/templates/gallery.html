@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>我的图片空间</title>
+<link type="text/css" rel="stylesheet" href="/admin/css/gallery.css" />
+</head>
+<body>
+	<div id="photos">
+		<script type="text/javascript">
+			function parseValues() {
+				var name, value;
+				var str = decodeURI(location.href);
+				console.log(str);
+				var num = str.indexOf("?");
+				str = str.substr(num + 1);
+				var arr = str.split("&");
+				var param1 = arr[0].split("=");
+				var allImages = eval(param1[1]);
+				allImages.forEach(function(d) {
+					// document.write('<img src="/upload/'+d+'" />');
+					document.write('<img src="/jiangdeyi_dghw/zkingedu1/src/main/resources/static/admin/img/'+d+'" />');
+				});
+			}
+			parseValues();
+			
+		</script>
+		<div ></div>
+		</div>
+		<script type="text/javascript" src="/admin/js/gallery.js"></script>
+</body>
+</html>

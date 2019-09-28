@@ -1,6 +1,5 @@
-#配置项目名和端口号server:
+  #配置项目名和端口号server:
 server:
-
    servlet:
      context-path:  /
    port: 8899
@@ -60,8 +59,12 @@ spring:
         min-idle: 1
       #连接超时(毫秒)
     timeout: 1000
+  #  配置文件上传大小
+  servlet:
+    multipart:
+      max-file-size: 10240KB
+      max-request-size: 10240KB
 #配置Mybatis参数
-
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.zking.zkingedu.common.model
@@ -71,4 +74,3 @@ mybatis:
 
 #logging:
   #config: classpath:text.xml
-

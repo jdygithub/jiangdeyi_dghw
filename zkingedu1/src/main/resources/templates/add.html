@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="index">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+<meta name="apple-mobile-web-app-title" content="" />
+
+<link rel="stylesheet" href="/admin/css/upload.css" />
+<link rel="stylesheet" href="/admin/css/font-awesome.min.css" />
+
+
+<script src="/admin/js/jquery-3.3.1.min.js"></script>
+
+
+
+
+
+
+<style>
+.uploadImgBtn {
+	margin-bottom: 0;
+	background: rgb(229, 229, 229);
+	text-align: center;
+	padding-top: 55px;
+}
+
+.uploadImgBtn span {
+	background: rgb(91, 49, 127);
+	width: 54px;
+	height: 54px;
+	display: inline-block;
+	border-radius: 27px;
+	text-align: center;
+	line-height: 58px;
+	color: white;
+}
+
+#showImgList img {
+	background: rgb(229, 229, 229);
+	width: 200px;
+}
+
+#showImgList {
+	width: 660px;
+}
+
+#showImgList li {
+	margin: 5px;
+	position: relative;
+	width: 200px;
+	display: inline-block;
+	float: left;
+	height: 200px;
+	overflow: hidden;
+}
+
+#showImgList .view {
+	display: none;
+	position: absolute;
+	bottom: 0;
+	background: rgb(69, 69, 69);
+	color: white;
+	width: 100%;
+	height: 45px;
+	text-align: center;
+	font-size: 18px;
+	line-height: 45px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	opacity: 0.9;
+}
+
+.close {
+	display: none;
+	position: absolute;
+	color: white;
+	width: 20px;
+	height: 20px;
+	background: gray;
+	text-align: center;
+	border-radius: 10px;
+	line-height: 20px;
+	right: 0;
+	top: 0;
+}
+
+.close i {
+	color: white;
+}
+
+/* button{
+
+	border-radius: 7px !important;
+} */
+.error {
+	color: red;
+	font-size: 1.4rem;
+}
+</style>
+
+
+</head>
+
+<body>
+	<div class="row-content am-cf">
+
+
+		<div class="row">
+
+			<div class="am-u-sm-12 am-u-md-12 am-u-lg-12"
+				style="min-width: 730px;">
+				<div class="widget am-cf">
+					<div class="am-form-group">
+						<div class="widget-head am-cf" style="padding-top: 0">
+							<div class="widget-title am-fl">新增</div>
+							<!--	<div class="widget-function am-fr">
+								<a href="javascript:;" class="am-icon-cog"></a>
+							</div>-->
+						</div>
+						<br>
+
+						<div class="am-u-md-2">
+							<div class="am-form-group">
+								<div class="am-btn-toolbar">
+									<div class="am-btn-group am-btn-group-xs"
+										style="margin-left: 17px;">
+										<a href="#"> <!-- <button type="button" style="height: 33px;"
+												class="am-btn am-btn-default am-btn-success"
+												onclick="addRow();">
+												<span class="am-icon-plus"></span> 添加图片
+											</button> -->
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+
+							<form id="form01" enctype="multipart/form-data">
+								<ul id="showImgList">
+									<li class="am-u-sm-12 uploadElement" style="padding: 0;">
+										<div class="uploadImgBtn  am-form-group" id="uploadImgBtn">
+											<span> <i class="fa fa-plus "
+												style="font-size: 36px; line-height: 54px"> </i>
+											</span>
+											<p
+												style="font-weight: 700; font-size: 15px; margin: 0; margin-top: 10px;">点击添加图片</p>
+											<p style="color: gray; font-size: 12px; margin: 0;">支持JPG/PNG格式</p>
+											<input class="uploadImg" type="file" name="file" id="file">
+										</div>
+									</li>
+								</ul>
+							</form>
+
+
+							<div class="am-margin "
+								style="text-align: center; clear: both; margin-top: 10px">
+								<button type="button" class="am-btn am-btn-success am-btn"
+									style="height: 33px; margin-right: 20px;"
+									onclick="'javascript:goback()'">取消</button>
+								<button type="button" class="am-btn am-btn-success am-btn"
+									style="height: 33px;" onclick="addAgreement()">保存</button>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script src="/admin/js/imgUp.js"></script>
+
+
+<script>
+
+
+	
+	//图片
+	var path;
+
+	var sign = false;
+
+	var icon = "<i class='fa fa-times-circle'></i> ";
+
+	function addAgreement() {
+
+		
+		if ($("input[type='file']").val() != "") {
+			var form = new FormData(document.getElementById("form01"));
+			$('body').showLoading();
+			$.ajax({
+				url : ctx + "/img/upload",
+				type : "post",
+				data : form,
+				processData : false,
+				contentType : false,
+				success : function(data) {
+					if (data.code == 0) {
+						$("body").hideLoading();
+						alert('新增成功!');
+						
+					} else {
+						alert('新增失败!');
+					}
+				},
+				error : function(e) {
+					alert('新增失败!');
+				}
+			});
+		}
+
+	}
+
+	//搜索补全
+
+	$('#customerId').autocomplete({
+		serviceUrl : '/agreement/agreement/name',
+		onSelect : function(suggestion) {
+			//选中选项行为
+			$("input[name='customerId']").val(suggestion.data);
+		}
+	});
+
+	
+
+	
+	function showImgDo() {
+		$(".img-show").mouseenter(function() {
+			$(this).children('.view').show();
+			$(this).children('.close').show();
+		});
+
+		$(".img-show").mouseleave(function() {
+			$(this).children('.view').hide();
+			$(this).children('.close').hide();
+		});
+	}
+</script>
+
+
+
+</html>

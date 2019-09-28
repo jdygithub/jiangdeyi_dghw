@@ -13,6 +13,81 @@
     <link rel="stylesheet" href="/admin/css/xadmin.css">
       <!--<link rel="stylesheet" href="/admin/layui/css/layui.css"  media="all">-->
       <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+      <style>
+          /*通过宽度限制实现九宫格效果*/
+          #container {
+              width: 860px;
+              overflow: hidden;
+          }
+
+          /*每一个文件上传对象*/
+          .chooseFile {
+              height: 200px;
+              width: 200px;
+              background-color: #eee;
+              float: left;
+              margin: 4px;
+              position: relative;
+              vertical-align: middle;
+          }
+
+          /*图片显示的处理*/
+          .chooseFile img {
+              position: absolute;
+              top: 0;
+              left: 0;
+          }
+
+          /*文件上传框的处理*/
+          .chooseFile input[type=file] {
+              height: 100%;
+              width: 100%;
+              opacity: 0;
+              cursor: pointer;
+              position: absolute;
+              top: 0;
+              left: 0;
+          }
+
+          /*上传的+号的外框处理*/
+          .plus {
+              height: 50px;
+              width: 50px;
+              background-color: F1FFFD;
+              border-radius: 50px;
+              margin: 20px auto 0 auto;
+              text-align: center;
+          }
+
+          /*提示选择文件的文本*/
+          .chooseTip {
+              text-align: center;
+          }
+
+          /*提示格式的文本*/
+          .formatSupport {
+              text-align: center;
+              color: #ccc;
+          }
+
+
+          /*删除图标*/
+          .removeIcon {
+              position: absolute;
+              top: 5px;
+              right: 5px;
+              background: #ccc;
+              height: 30px;
+              width: 30px;
+              border-radius: 20px;/*圆角*/
+              line-height: 30px;
+              text-align: center;
+              color: red;
+              display: none;
+              z-index: 100;
+              cursor:  pointer;
+          }
+      </style>
     <script src="/admin/js/jquery.min.js"></script>
     <script type="text/javascript" src="/admin/layui/layui.js" charset="utf-8"></script>
       <script type="text/javascript" src="/admin/js/xadmin.js"></script>
@@ -76,7 +151,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">藏品原名</label>
                                 <div class="layui-input-block" style="width: 300px">
-                                    <input type="text" name="collectionoldname"  placeholder="" autocomplete="off" class="layui-input">
+                                    <input type="text" name="collectionoldname"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
                         </div>
@@ -88,7 +163,7 @@
                             <div class="layui-inline" style="width: 400px">
                                 <label class="layui-form-label">藏品年代</label>
                                 <div class="layui-input-inline" style="width: 255px">
-                                    <select name="collectionyear" lay-filter="year" >
+                                    <select name="collectionyear" lay-filter="year" lay-verify="required">
                                         <option value="" selected="">选择年代</option>
                                         <option value="旧石器时代">旧石器时代（约200万—1万年前）</option>
                                         <option value="新石器时代">新石器时代（约1万—4千年前）</option>
@@ -192,8 +267,8 @@
                                 <div class="layui-input-inline">
                                     <select name="collectioncount" lay-verify="required" lay-search="">
                                         <option value="">请选择</option>
-                                        <option value="单件/套">单件/套</option>
-                                        <option value="多件">多件</option>
+                                        <option value="单件/套">单件</option>
+                                        <option value="多件">多件/套</option>
                                     </select>
                                 </div>
                             </div>
@@ -266,22 +341,9 @@
                         <div class="layui-form-item layui-form-text" style="width: 41%">
                             <label class="layui-form-label">基本描述</label>
                             <div class="layui-input-block">
-                                <textarea name="collectionremark" placeholder="请输入内容" class="layui-textarea"></textarea>
+                                <textarea name="collectionremark" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea>
                             </div>
                         </div>
-
-                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                            <legend>藏品图片上传</legend>
-                        </fieldset>
-
-                        <div class="layui-upload">
-                            <button type="button" class="layui-btn" id="test2">多图片上传</button>
-                            <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
-                                预览图：
-                                <div class="layui-upload-list" id="demo2"></div>
-                            </blockquote>
-                        </div>
-
                         <div class="layui-form-item layui-layout-admin">
                             <div class="layui-input-block">
                                 <div class="layui-footer" style="left: 0;">
@@ -291,109 +353,201 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                    <div style="margin-top: -55px">
+                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                            <legend>藏品图片上传</legend>
+                        </fieldset>
+                        <form action="/img/upload" method="post" id="form1" enctype="multipart/form-data">
+                            <div id="container">
+                                <div class="chooseFile">
+                                    <div class="removeIcon" onclick="closeImg(this)">
+                                        <i class="layui-icon">&#xe640;</i>
+                                    </div>
+                                    <p class="plus">
+                                        <i class="layui-icon">&#xe654;</i>
+                                    </p>
+                                    <p class="chooseTip">请点击增加图片</p>
+                                    <p class="formatSupport">支持JPG/PNG</p>
+                                    <input name="file" type="file" id="file"
+                                           onchange="handleUpload(event)" accept="image/*"  />
+                                </div>
+                            </div>
 
+                            <input type="button" onclick="doSubmit()" value="上传" style="display:none" id="dosub">
+                        </form>
+                    </div>
+                </div>
             </div>
         </fieldset>
-
-
     </div>
   </div>
 
   <!--<script src="/admin/layui/layui.js" charset="utf-8"></script>-->
   <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+  <script type="text/javascript">
+      function handleUpload(evt) {
+          var $ele = $(".chooseFile:last").clone(true);
+          $ele.find("input").attr("id", "file" + $(".chooseFile").length);
+          var $img = $("<img style='vertical-align: middle;' src='"
+              + getObjectURL(evt.currentTarget.files[0])
+              + "' width='200' height='200'  />");
+          $img.hover(function(){
+              $img.parents(".chooseFile").find(".removeIcon").show();
+          },function(){
+              $img.parents(".chooseFile").find(".removeIcon").hide();
+          });
+          $ele.append($img);
+          $(".chooseFile:last").before($ele);
+          //最多9个
+          if ($(".chooseFile").length >= 5) {
+              $(".chooseFile:last").remove();
+          }
 
+      }
+
+      function getObjectURL(file) {
+          var url = null;
+          // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+          if (window.createObjectURL != undefined) { // basic
+              url = window.createObjectURL(file);
+          } else if (window.URL != undefined) { // mozilla(firefox)
+              url = window.URL.createObjectURL(file);
+          } else if (window.webkitURL != undefined) { // webkit or chrome
+              url = window.webkitURL.createObjectURL(file);
+          }
+          return url;
+      }
+      function doSubmit() {
+          var dataStr;
+          //从表单中移除最后一个文件域
+          $("#form1").find("input[type=file]:last").remove();
+          //ajax提交
+          //组织数据:ajax提交表单的必经之路
+          var formData = new FormData($("#form1")[0]);
+          $.ajax({
+              type : "POST",
+              url : "/img/upload",
+              data : formData,
+              async: false,
+              processData : false,//阻止jq修改数据
+              contentType : false,//阻止jq使用默认contenttype
+              success : function(data) {
+                  dataStr = JSON.stringify(data);
+                  // location.href = "gallery.html?file=" + encodeURI(dataStr);
+              },
+              error : function(e) {
+                  alert("发生错误");
+              }
+          });
+          return dataStr;
+      }
+
+      function closeImg(target){
+          $(target).parents(".chooseFile").remove();
+      }
+  </script>
   <script>
-
+var empid =1; //session里面取值
   layui.use(['form', 'laydate','upload'], function(){
     var upload = layui.upload
         ,layer = layui.layer
     ,laydate = layui.laydate
     ,form = layui.form;
-
-    // form.render(null, 'component-form-group');
-    //
-    // laydate.render({
-    //   elem: '#LAY-component-form-group-date'
-    // });
-      //多图片上传
-      upload.render({
-          elem: '#test2'
-          ,url: '/upload/'
-          ,multiple: true
-          ,before: function(obj){
-              //预读本地文件示例，不支持ie8
-              obj.preview(function(index, file, result){
-                  $('#demo2').append('<img src="'+ result +'" alt="'+ file.name +'" class="layui-upload-img">')
-              });
-          }
-          ,done: function(res){
-              //上传完毕
-          }
-      });
-    /* 自定义验证规则 */
-    // form.verify({
-    //   title: function(value){
-    //     if(value.length < 5){
-    //       return '标题至少得5个字符啊';
-    //     }
-    //   }
-    //   ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-    //   ,content: function(value){
-    //     layedit.sync(editIndex);
-    //   }
-    // });
-
-
-
-    /* 监听提交
-    * */
-
+      /* 监听提交
+      * */
     form.on('submit(component-form-demo1)', function(data){
       // parent.layer.alert(JSON.stringify(data.field), {
       //   title: '最终的提交信息'
       // });
       //   layer.alert(JSON.stringify(data.field.collectionnotype));
-        $.ajax({
-            datatype: "json",
-            type: "post",
-            url: "/collections/addcollection",
-            data: {
-                // jsons:JSON.stringify(data.field),
-                collectionnotype:data.field.collectionnotype// {"collectionnotype":"藏品总登记号"
-                ,collectionno:data.field.collectionno //     ,"collectionno":"编号"
-                ,collectionname:data.field.collectionname  //     ,"collectionname":"名称"
-                ,collectionyear:data.field.collectionyear   //     ,"collectionyear":"旧石器时代"
-                ,collectiontypeid:data.field.collectiontypeid // 藏品类别ID
-                ,collectionlevel:data.field.collectionlevel //     ,"collectionlevel":"二级"
-                ,collectiondisability:data.field.collectiondisability  //     ,"collectiondisability":"严重残缺"
-                ,collectionpreservation:data.field.collectionpreservation     //     ,"collectionpreservation":"不需修复"
-                ,collectiondiameter:data.field.collectiondiameter    //     ,"collectiondiameter":"100"
-                ,collectionbore:data.field.collectionbore     //     ,"collectionbore":"100"
-                ,collectionhigh:data.field.collectionhigh      //     ,"collectionhigh":"100"
-                ,collectionsize:data.field.collectionsize    //     ,"collectionsize":"100*100*100"
-                ,collectionoldname:data.field.collectionoldname        //     ,"collectionoldname":"原名"
-                ,collectionsource:data.field.collectionsource        //     ,"collectionsource":"征集"
-                ,collectionremark:data.field.collectionremark   //     ,"collectionremark":"描述"
-                ,collectioncount:data.field.collectioncount        //     ,"collectioncount":"单件/套"
-                ,collectionmass:data.field.collectionmass//     ,"collectionmass":"50"
-                ,collectioninyear:data.field.collectioninyear   //     ,"collectioninyear":"2019"
-                ,collectionjtyear:data.field.collectionjtyear //     ,"collectionjtyear":"1990"
-                // ,createdtime:data.field.createdtime 创建时间
-                // ,modifiedTime:data.field.modifiedTime修改时间
-                ,empid:1//添加用户信息
-                // ,collectionaddresscode:data.field.collectionaddresscode存放地址编码
-                ,collectionstatus:0//状态  添加默认为下架状态  审核通过后修改为上架状态
-            },
-            success: function (result) {//添加藏品过后生成的ID  用来添加图片表的
-                layer.alert(result);
-            },
-            error: function () {
-                layer.msg("出现bug了，请联系大观文化工作人员,电话:52288888")
-            }
-        });
+        if($(".chooseFile").length==1){
+            layer.msg("请先添加藏品图片");
+        }else{
+            $.ajax({
+                datatype: "json",
+                type: "post",
+                url: "/collections/addcollection",
+                data: {
+                    // jsons:JSON.stringify(data.field),
+                    collectionnotype:data.field.collectionnotype// {"collectionnotype":"藏品总登记号"
+                    ,collectionno:data.field.collectionno //     ,"collectionno":"编号"
+                    ,collectionname:data.field.collectionname  //     ,"collectionname":"名称"
+                    ,collectionyear:data.field.collectionyear   //     ,"collectionyear":"旧石器时代"
+                    ,collectiontypeid:data.field.collectiontypeid // 藏品类别ID
+                    ,collectionlevel:data.field.collectionlevel //     ,"collectionlevel":"二级"
+                    ,collectiondisability:data.field.collectiondisability  //     ,"collectiondisability":"严重残缺"
+                    ,collectionpreservation:data.field.collectionpreservation     //     ,"collectionpreservation":"不需修复"
+                    ,collectiondiameter:data.field.collectiondiameter    //     ,"collectiondiameter":"100"
+                    ,collectionbore:data.field.collectionbore     //     ,"collectionbore":"100"
+                    ,collectionhigh:data.field.collectionhigh      //     ,"collectionhigh":"100"
+                    ,collectionsize:data.field.collectionsize    //     ,"collectionsize":"100*100*100"
+                    ,collectionoldname:data.field.collectionoldname        //     ,"collectionoldname":"原名"
+                    ,collectionsource:data.field.collectionsource        //     ,"collectionsource":"征集"
+                    ,collectionremark:data.field.collectionremark   //     ,"collectionremark":"描述"
+                    ,collectioncount:data.field.collectioncount        //     ,"collectioncount":"单件/套"
+                    ,collectionmass:data.field.collectionmass//     ,"collectionmass":"50"
+                    ,collectioninyear:data.field.collectioninyear   //     ,"collectioninyear":"2019"
+                    ,collectionjtyear:data.field.collectionjtyear //     ,"collectionjtyear":"1990"
+                    // ,createdtime:data.field.createdtime 创建时间
+                    // ,modifiedTime:data.field.modifiedTime修改时间
+                    ,empid:empid//添加用户信息
+                    ,auditstatus:0
+                    // ,collectionaddresscode:data.field.collectionaddresscode存放地址编码
+                    ,collectionstatus:0//状态  添加默认为下架状态  审核通过后修改为上架状态
+                },
+                success: function (result) {//添加藏品过后生成的ID  用来添加图片表的
+                    if(result!='error'){
+                        var data = doSubmit();
+                        $.ajax({
+                            type : "POST",
+                            url : "/collections/addimag",
+                            data : {
+                                collectionid:result,
+                                dataStr:data
+                            },
+                            success : function(data) {
+                               if(data=='ok'){
+                                   layer.msg("添加图片成功");
+                               }
+                               else{
+                                   layer.msg("添加图片失败");
+                               }
+
+                            },
+                            error : function(e) {
+                                alert("发生错误");
+                            }
+                        });
+                                    // location.href = "gallery.html?file=" + encodeURI(dataStr);
+                    }
+                },
+                error: function () {
+                    layer.msg("出现bug了，请联系大观文化工作人员,电话:52288888")
+                }
+            });
+        }
       return false;
     });
+      form.verify({
+          username: function(value, item){ //value：表单的值、item：表单的DOM对象
+              if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+                  return '用户名不能有特殊字符';
+              }
+              if(/(^\_)|(\__)|(\_+$)/.test(value)){
+                  return '用户名首尾不能出现下划线\'_\'';
+              }
+              if(/^\d+\d+\d$/.test(value)){
+                  return '用户名不能全为数字';
+              }
+          }
+
+          // 我们既支持上述函数式的方式，也支持下述数组的形式
+          // 数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+          ,pass: [
+              /^[\S]{6,12}$/
+              ,'密码必须6到12位，且不能出现空格'
+          ]
+      });
   });
 
   </script>

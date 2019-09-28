@@ -9,11 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class JdyURLController extends SuperController {
@@ -70,6 +67,16 @@ public class JdyURLController extends SuperController {
     }
 
     /**
+     * 跳转到需修复藏品界面
+     * @param modelAndView
+     * @return
+     */
+    @RequestMapping("/repair")
+    public ModelAndView repair(ModelAndView modelAndView){
+        modelAndView.setViewName("jdy/repair");
+        return modelAndView;
+    }
+    /**
      * 跳转到审核藏品界面
      * @param modelAndView
      * @return
@@ -125,6 +132,29 @@ public class JdyURLController extends SuperController {
         }
         modelAndView.addObject("collectionid",collectionid);
         modelAndView.setViewName("jdy/updatecollection");
+        return modelAndView;
+    }
+
+    /**
+     * 跳转到添加修复申请界面
+     * @param modelAndView
+     * @return
+     */
+    @RequestMapping("/addrepair")
+    public ModelAndView addrepair(ModelAndView modelAndView,String collectionid){
+        modelAndView.setViewName("jdy/addrepair");
+        modelAndView.addObject("collectionid",collectionid);
+        return modelAndView;
+    }
+
+    /**
+     * 测试index
+     * @param modelAndView
+     * @return
+     */
+    @RequestMapping("/index")
+    public ModelAndView index(ModelAndView modelAndView){
+        modelAndView.setViewName("index");
         return modelAndView;
     }
 

@@ -14,11 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -36,9 +34,16 @@ public class CollectionsController extends SuperController {
     @ResponseBody
     @Transactional//事物
     public String addcollection(@ModelAttribute Collections collections){
-        collections.setCreatedtime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));//添加创建时间
-        collectionsService.addcollection(collections);
-        return collections.getCollectionid()+"";//返回主键给添加图片使用
+        try {
+//            collections.setCreatedtime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));//添加创建时间
+//            collectionsService.addcollection(collections);
+//            return collections.getCollectionid()+"";//返回主键给添加图片使用
+            return "35";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "error";
+        }
+
     }
     /**
      * 藏品展示
@@ -50,7 +55,6 @@ public class CollectionsController extends SuperController {
     @ResponseBody
     public Map getcollections(HttpServletRequest request){
         Map map1 = getMap(request);
-        // 1. entrySet遍历，在键和值都需要时使用（最常用）
         String page = (String)map1.get("page");
         String limit = (String)map1.get("limit");
         Page<Object> objects = PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(limit));
@@ -168,7 +172,6 @@ public class CollectionsController extends SuperController {
     @RequestMapping("/updatetypename")
     @ResponseBody
    public String updatetypename(@ModelAttribute Collectiontype collectiontype){
-        System.err.println(collectiontype);
        int updatetype = collectiontypeService.updatetype(collectiontype);
        if(updatetype!=1){
            return "error";
@@ -212,8 +215,32 @@ public class CollectionsController extends SuperController {
        }
        return "success";
    }
+    /**--------------------------------------------------------------------------图片模块----------------------------------------------------------------------------------
+     * 添加藏品图片
+     * @return
+     */
+    @RequestMapping("/addimag")
+    @ResponseBody
+    public String addimag(HttpServletRequest request){
+        try{
+            Map map1 = getMap(request);
+            String collectionid = (String)map1.get("collectionid");
+            String dataStr = (String)map1.get("dataStr");
+            System.err.println(collectionid);
+            System.err.println("-----------------------------------------------------");
+            System.err.println(dataStr);
+            List<String> strsToList1= Arrays.asList(dataStr);
+            System.err.println("-----------------------------------------------------");
+                System.err.println(strsToList1.size());
+//            String[] strarr = dataStr.split(",");
+//            System.out.println(strarr);
+            return "ok";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "no";
+        }
 
-
+    }
 
 
 }

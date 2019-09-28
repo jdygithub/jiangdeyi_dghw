@@ -1,43 +1,168 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
-      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<meta charset="UTF-8">
+<title>文件上传demo</title>
+
+<link rel="stylesheet" href="/admin/css/font-awesome.min.css">
+<style>
+/*通过宽度限制实现九宫格效果*/
+#container {
+	width: 660px;
+	overflow: hidden;
+}
+
+/*每一个文件上传对象*/
+.chooseFile {
+	height: 150px;
+	width: 150px;
+	background-color: #eee;
+	float: left;
+	margin: 4px;
+	position: relative;
+	vertical-align: middle;
+}
+
+/*图片显示的处理*/
+.chooseFile img {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/*文件上传框的处理*/
+.chooseFile input[type=file] {
+	height: 100%;
+	width: 100%;
+	opacity: 0;
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/*上传的+号的外框处理*/
+.plus {
+	height: 50px;
+	width: 50px;
+	background-color: #00F;
+	border-radius: 50px;
+	margin: 20px auto 0 auto;
+	text-align: center;
+}
+
+/*提示选择文件的文本*/
+.chooseTip {
+	text-align: center;
+}
+
+/*提示格式的文本*/
+.formatSupport {
+	text-align: center;
+	color: #ccc;
+}
+
+
+/*删除图标*/
+.removeIcon {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background: #ccc;
+	height: 20px;
+	width: 20px;
+	border-radius: 20px;
+	line-height: 18px;
+	text-align: center;
+	color: white;
+	display: none;
+	z-index: 100;
+	cursor:  pointer;
+}
+</style>
+<script type="text/javascript" src="/admin/js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-<a href="/test"></a>
+	<form action="/img/upload" method="post" id="form1" enctype="multipart/form-data">
+		<div id="container">
+			<div class="chooseFile">
+				<div class="removeIcon" onclick="closeImg(this)">
+					<i class="fa fa-times"></i>
+				</div>
+				<p class="plus">
+					<i class="fa fa-plus"
+						style="font-size: 36px; line-height: 50px; color: #fff;"></i>
+				</p>
+				<p class="chooseTip">请点击增加图片</p>
+				<p class="formatSupport">支持JPG/PNG</p>
+				<input name="file" type="file" id="file"
+					onchange="handleUpload(event)" accept="image/*"  />
+			</div>
+		</div>
+
+		<input type="button" onclick="doSubmit()" value="上传">
+	</form>
+
+	<script type="text/javascript">
+		function handleUpload(evt) {
+			var $ele = $(".chooseFile:last").clone(true);
+			$ele.find("input").attr("id", "file" + $(".chooseFile").length);
+			var $img = $("<img style='vertical-align: middle;' src='"
+				+ getObjectURL(evt.currentTarget.files[0])
+				+ "' width='150' height='150'  />");
+			$img.hover(function(){
+				$img.parents(".chooseFile").find(".removeIcon").show();
+			},function(){
+				$img.parents(".chooseFile").find(".removeIcon").hide();
+			});
+			$ele.append($img);
+			$(".chooseFile:last").before($ele);
+			//最多9个
+			if ($(".chooseFile").length >= 5) {
+				$(".chooseFile:last").remove();
+			}
+
+		}
+
+		function getObjectURL(file) {
+			var url = null;
+			// 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+			if (window.createObjectURL != undefined) { // basic
+				url = window.createObjectURL(file);
+			} else if (window.URL != undefined) { // mozilla(firefox)
+				url = window.URL.createObjectURL(file);
+			} else if (window.webkitURL != undefined) { // webkit or chrome
+				url = window.webkitURL.createObjectURL(file);
+			}
+			return url;
+		}
+		function doSubmit(form) {
+			//从表单中移除最后一个文件域
+			$("#form1").find("input[type=file]:last").remove();
+			//ajax提交
+			//组织数据:ajax提交表单的必经之路
+			var formData = new FormData($("#form1")[0]);
+			$.ajax({
+				type : "POST",
+				url : "/img/upload",
+				data : formData,
+				processData : false,//阻止jq修改数据
+				contentType : false,//阻止jq使用默认contenttype
+				success : function(data) {
+					var dataStr = JSON.stringify(data);
+					alert(dataStr);
+					alert(encodeURI(dataStr))
+					location.href = "gallery.html?file=" + encodeURI(dataStr);
+				},
+				error : function(e) {
+					alert("发生错误");
+				}
+			});
+
+		}
+		function closeImg(target){
+			$(target).parents(".chooseFile").remove();
+		}
+	</script>
 </body>
-index
-<table>
-    <thead>
-        <tr>
-            <td>用户编号</td>
-            <td>用户名</td>
-            <td>密码</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr data-th-each="user : ${users}">
-            <td data-th-text="${user.uid}"></td>
-            <td data-th-text="${user.uname}"></td>
-            <td data-th-text="${user.upwd}"></td>
-        </tr>
-
-    </tbody>
-</table>
-<shiro:hasPermission name="查看用户">
-    <div >查看</div>
-</shiro:hasPermission>
-<shiro:hasPermission name="修改用户">
-    <div >修改</div>
-</shiro:hasPermission>
-<shiro:hasPermission name="删除用户">
-    <div >删除</div>
-</shiro:hasPermission>
-<shiro:hasPermission name="增加用户">
-    <div >增加</div>
-</shiro:hasPermission>
-
-是的
 </html>

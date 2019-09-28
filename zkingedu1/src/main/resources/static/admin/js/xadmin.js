@@ -204,5 +204,21 @@ function x_admin_close(){
     var index = parent.layer.getFrameIndex(window.name);
     parent.layer.close(index);
 }
+//显示大图片
+function show_img(t) {
+    var t1 = $(t).find("img");
+    //页面层
+    layer.open({
+        type: 1,
+        title:'图片详情',
+        skin: 'layui-layer-rim', //加上边框
+        area: ['700px', '643px'], //宽高
+        shadeClose: true, //开启遮罩关闭
+        end: function (index, layero) {
+            return false;
+        },
+        content: '<div style="text-align:center"><img src="' + $(t).attr('src') + '" width="700px" height="600px" /></div>'
+    });
+}
 
 

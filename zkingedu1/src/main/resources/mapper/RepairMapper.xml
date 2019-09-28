@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zking.zkingedu.common.dao.RepairDao">
+
+    <!--//添加修复表-->
+    <insert id="addrepair" parameterType="map">
+        insert into repair(collectionid,timelong,repairaddress,empid,date,repairstate,oktime,remark)
+        values(#{collectionid},#{timelong},#{repairaddress},#{empid},#{date},#{repairstate},#{oktime},#{remark})
+    </insert>
+    <!--//查询修复表-->
+    <select id="getrepairs"  resultType="map" parameterType="map">
+        select repairableid,collectionid,timelong,repairaddress,repair.empid,date,repairstate,oktime,remark,empname
+        from repair LEFT JOIN employee on repair.empid = employee.empid
+        <where>
+            <if test="null!=str and ''!=str">
+                and repairableid like '%${str}%'
+                or collectionid like '%${str}%'
+                or repairaddress like '%${str}%'
+                or empname like '%${str}%'
+            </if>
+        </where>
+    </select>
+    <!--//删除修复表单个数据-->
+    <delete id="delrepair" parameterType="map">
+        delete from repair where repairableid = #{repairableid}
+    </delete>
+    <!--//修改-->
+    <update id="updaterepair" parameterType="map">
+        update repair <set>
+        <if test="null!=collectionid and ''!=collectionid">
+            collectionid = #{collectionid}
+        </if>
+        <if test="null!=timelong and ''!=timelong">
+            timelong = #{timelong}
+        </if>
+        <if test="null!=repairaddress and ''!=repairaddress">
+            repairaddress = #{repairaddress}
+        </if>
+        <if test="null!=empid and ''!=empid">
+            empid = #{empid}
+        </if>
+        <if test="null!=date and ''!=date">
+            date = #{date}
+        </if>
+        <if test="null!=repairstate and ''!=repairstate">
+            repairstate = #{repairstate}
+        </if>
+        <if test="null!=oktime and ''!=oktime">
+            oktime = #{oktime}
+        </if>
+        <if test="null!=remark and ''!=remark">
+            remark = #{remark}
+        </if>
+    </set>
+         where repairableid = #{repairableid}
+    </update>
+
+
+</mapper>

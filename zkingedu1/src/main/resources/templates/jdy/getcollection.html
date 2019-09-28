@@ -16,6 +16,7 @@
     <script src="/admin/js/jquery.min.js"></script>
     <script type="text/javascript" src="/admin/layui/layui.js" charset="utf-8"></script>
       <script type="text/javascript" src="/admin/js/xadmin.js"></script>
+
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -324,7 +325,7 @@
               var text = "";
               // layer.alert(JSON.stringify(result.getimages))
               $.each(result.getimages, function (i, obj) {
-                  text +='<img onclick="show_img(this)"  src="'+obj.image+'" height="300" width="300"/>'
+                  text +='<img onclick="show_img(this)" style="cursor:pointer"  src="'+obj.image+'" height="300" width="300"/>'
               })
               $('#demo2').html(text);
           },
@@ -336,21 +337,7 @@
 
 
   });
-  //显示大图片
-  function show_img(t) {
-      var t1 = $(t).find("img");
-      //页面层
-      layer.open({
-          type: 1,
-          skin: 'layui-layer-rim', //加上边框
-          area: ['80%', '80%'], //宽高
-          shadeClose: true, //开启遮罩关闭
-          end: function (index, layero) {
-              return false;
-          },
-          content: '<div style="text-align:center"><img src="' + $(t).attr('src') + '" /></div>'
-      });
-  }
+
 
       </script>
 
