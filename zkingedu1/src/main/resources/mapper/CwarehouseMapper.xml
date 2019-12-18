@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zking.zkingedu.common.dao.CwarehouseDao">
+
+
+    <!--添加出库表  返回主键-->
+    <insert id="addcwarehouse" parameterType="map">
+        insert into cwarehouse(cwarehouseid,cwarehousetext,cwarehousenumber,returndate,empid,date,remark)
+        values(#{cwarehouseid},#{cwarehousetext},#{cwarehousenumber},#{returndate},#{empid},#{date},#{remark});
+    </insert>
+
+    <!--查询出库表-->
+    <select id="getcwarehouse" resultType="map" parameterType="map">
+        select
+        cwarehouseid,cwarehousetext,cwarehousenumber,returndate,employee.empname,date,remark
+        from cwarehouse
+        left join employee on cwarehouse.empid = employee.empid
+        <where>
+            <if test="null!=str and ''!=str">
+               employee.empname like '%${str}%'
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zking.zkingedu.common.dao.QuweiDao">
+
+    <!--//添加区位-->
+    <insert id="addquwei" parameterType="map">
+        insert into quwei(storeroomid,quweiname,remark)
+        values(#{storeroomid},#{quweiname},#{remark})
+    </insert>
+    <!--//查询区位信息-.................................................................-->
+    <select id="getquwei"  resultType="map" parameterType="map">
+        select quweiid,quwei.storeroomid,storeroom.storeroomname,quweiname,number,quwei.remark
+        from quwei
+        LEFT JOIN storeroom on quwei.storeroomid = storeroom.storeroomid
+        <where>
+            <if test="null!=storeroomid and ''!=storeroomid">
+                quwei.storeroomid = #{storeroomid}
+            </if>
+            <if test="null!=quweiid and ''!=quweiid">
+                and quweiid = #{quweiid}
+            </if>
+        </where>
+    </select>
+<!--查询单个区域信息-->
+    <select id="getquweibyid"  resultType="map" parameterType="map">
+        select quweiid,storeroomid,quweiname,number,remark
+        from quwei
+        where
+            <if test="null!=quweiid and ''!=quweiid">
+                quweiid = #{quweiid}
+            </if>
+    </select>
+    <!--删除区位信息-.................................................................-->
+    <delete id="delquwei" parameterType="map">
+        delete from quwei where quweiid = #{quweiid}
+    </delete>
+    <!--//修改-................................................................. -->
+    <update id="updatequwei" parameterType="map">
+        update quwei <set>
+
+        <if test="null!=quweiname and ''!=quweiname">
+            quweiname = #{quweiname},
+        </if>
+        <if test="null!=number and ''!=number">
+            number = #{number},
+        </if>
+        <if test="null!=remark and ''!=remark">
+            remark = #{remark},
+        </if>
+        <if test="null!=storeroomid and ''!=storeroomid">
+            storeroomid = #{storeroomid},
+        </if>
+    </set>
+         where quweiid = #{quweiid}
+    </update>
+    <select id="nunbersx" parameterType="map" resultType="_int">
+        select count(*) from quweicollections where quweiid = #{quweiid}
+    </select>
+
+</mapper>

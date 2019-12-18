@@ -3,15 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zking.zkingedu.common.dao.CollectionsDao">
 
-    <!--菜单接口Mapper-->
-    <!--<select id="getmenus" resultType="menu">-->
-        <!--select DISTINCT e.* from t_emp a,t_role b,t_emp_role c,t_menu_role d,t_menu e-->
-        <!--where a.emp_id=c.emp_id and b.role_id=c.role_id-->
-        <!--and d.menu_id = e.menu_id and d.role_id = b.role_id-->
-        <!--<if test="empid!=null">-->
-             <!--and a.emp_id = #{empid}-->
-        <!--</if>-->
-    <!--</select>-->
     <!--添加藏品  返回主键-->
     <insert id="addcollection" useGeneratedKeys="true" keyProperty="collectionid" keyColumn="collectionid" parameterType="Collections">
         insert into collections(collectionnotype,collectionno,collectionname,collectionyear,collectiontypeid,collectionlevel,collectiondisability,collectionpreservation
@@ -27,6 +18,15 @@
     <delete id="delcollection" parameterType="map">
         delete from collections where collectionid in (${collectionid})
     </delete>
+    <!--查询藏品按照是否入库-->
+    <select id="getcollectionsbycr" resultType="map" parameterType="map">
+        select collectionid,collectionname,existing from collections
+        <where>
+            <if test="null!=existing and ''!=existing">
+                existing = #{existing}
+            </if>
+        </where>
+    </select>
     <!--查询藏品-->
     <select id="getcollections" resultType="map" parameterType="map">
         select collectionid,collectionnotype,collectionno,collectionname,collectionyear,collections.collectiontypeid,collectiontypename,collectionlevel,collectiondisability,collectionpreservation
@@ -42,21 +42,14 @@
             <if test="null!=repair and ''!=repair">
                 and collectionpreservation in ('可修复','急需修复')
             </if>
+            <if test="null!=existing and ''!=existing">
+                and existing = #{existing}
+            </if>
             <if test="null!=str and ''!=str">
                and (collectionnotype like '%${str}%'
-               <if test="repair==null and ''==repair">
-                   or collectionid like '%${str}%'
-                   or collectionno like '%${str}%'
-                   or collectionname like '%${str}%'
-                   or collectionyear like '%${str}%'
-                   or collectiontypename like '%${str}%'
-                   or collectionlevel like '%${str}%'
-               </if>
-                <if test="null!=repair and ''!=repair">
-                    or collectionid like '%${str}%'
-                    or collectionno like '%${str}%'
-                    or collectionname like '%${str}%'
-                </if>
+                or collectionid like '%${str}%'
+                or collectionno like '%${str}%'
+                or collectionname like '%${str}%'
                 )
             </if>
         </where>
@@ -65,7 +58,8 @@
 
     <!--修改藏品-->
     <update id="updatecollection" parameterType="map">
-        update collections <set>
+        update collections
+        <set>
         <if test="null!=collectionnotype and ''!=collectionnotype">
             collectionnotype=#{collectionnotype},
         </if>
@@ -130,10 +124,13 @@
             collectionaddresscode=#{collectionaddresscode},
         </if>
         <if test="null!=collectionstatus and ''!=collectionstatus">
-            collectionstatus=#{collectionstatus}
+            collectionstatus=#{collectionstatus},
         </if>
         <if test="null!=auditstatus and ''!=auditstatus">
             auditstatus=#{auditstatus},
+        </if>
+        <if test="null!=existing and ''!=existing">
+            existing=#{existing}
         </if>
     </set>
         where collectionid in (${collectionid})
@@ -153,6 +150,11 @@
                 collectionid=#{collectionid}
             </if>
         </where>
+    </select>
+
+    <!--查询所有的管理员-->
+    <select id="getemps" resultType="map">
+        select empid,empname from employee
     </select>
 
 

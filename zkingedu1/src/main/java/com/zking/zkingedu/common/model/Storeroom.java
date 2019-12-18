@@ -18,6 +18,6 @@ public class Storeroom implements Serializable{
     private String storeroomtext;//库房信息
     private String storeroomtemperature;//库房温度
     private String storeroomhumidness;//库房湿度
-    private Integer storeroomclerk;//库房管理员  员工ID
+    private Integer empid;//库房管理员  员工ID
     private String remark;//备注
 }

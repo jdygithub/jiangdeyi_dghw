@@ -335,6 +335,18 @@
                                     <input type="text" name="collectionmass" lay-verify="number" placeholder="kg" autocomplete="off" class="layui-input">
                                 </div>
                             </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">存放位置</label>
+                                <div class="layui-input-inline">
+                                    <select name="quweiid" lay-verify="required">
+                                        <option value="">请选择藏品仓库位置</option>
+                                        <optgroup label="仓库" th:each="item:${storerooms}" th:label="${item.storeroomname}">
+                                            <option value="0" th:each="itema:${item.getquwei}" th:value="${itema.quweiid}" th:text="${itema.quweiname}">A区</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -492,7 +504,7 @@ var empid =1; //session里面取值
                     // ,modifiedTime:data.field.modifiedTime修改时间
                     ,empid:empid//添加用户信息
                     ,auditstatus:0
-                    // ,collectionaddresscode:data.field.collectionaddresscode存放地址编码
+                    ,collectionaddresscode:data.field.quweiid//存放地址区位ID
                     ,collectionstatus:0//状态  添加默认为下架状态  审核通过后修改为上架状态
                 },
                 success: function (result) {//添加藏品过后生成的ID  用来添加图片表的

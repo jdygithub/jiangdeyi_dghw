@@ -39,5 +39,6 @@ public class Collections implements Serializable {
     private Integer empid;//创建员工ID
     private Integer collectionstatus;//藏品状态 0 下架  1在架
     private String collectionaddresscode;//存放地址编码 架位名称
+    private String existing;//是否在库(出入库使用的)0不在(已出库)1在库(未出库或已归还)
     private List<Collectionimage> images;
 }

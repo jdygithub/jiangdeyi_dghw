@@ -6,6 +6,7 @@ import com.zking.zkingedu.common.service.CollectionsService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,5 +64,27 @@ public class CollectionsServiceImpl implements CollectionsService {
         return collectionsDao.getimages(map);
     }
 
-
+    @Override
+    public List<Map> getcollectionsbycr(Map map) {
+        List<Map> crcollection = new ArrayList<>();
+        List<Map> getcollectionsbycr = collectionsDao.getcollectionsbycr(map);
+        for (Map getcollection : getcollectionsbycr) {
+            Map map1 = new HashMap();
+            map1.put("title",getcollection.get("collectionname"));
+            map1.put("value",getcollection.get("collectionid"));
+            if(!map.containsKey("existing")){
+                if("1".equals(getcollection.get("existing"))){//0就是已出库不在库内,1就是在库内
+                    map1.put("disabled",false);//未出库,可以选择
+                }else{
+                    map1.put("disabled",true);//已出库无法选择
+                }
+            }
+            crcollection.add(map1);
+        }
+        return crcollection;
+    }
+    @Override
+    public List<Map> getemps(){
+        return  collectionsDao.getemps();
+    }
 }

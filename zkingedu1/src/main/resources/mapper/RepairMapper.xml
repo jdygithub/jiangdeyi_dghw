@@ -10,14 +10,17 @@
     </insert>
     <!--//查询修复表-->
     <select id="getrepairs"  resultType="map" parameterType="map">
-        select repairableid,collectionid,timelong,repairaddress,repair.empid,date,repairstate,oktime,remark,empname
-        from repair LEFT JOIN employee on repair.empid = employee.empid
+        select repair.repairableid,repair.collectionid,collections.collectionname,repair.timelong,repair.repairaddress,repair.empid,repair.date,repair.repairstate,repair.oktime,repair.remark,employee.empname
+        from repair
+        LEFT JOIN employee on repair.empid = employee.empid
+        LEFT JOIN collections ON repair.collectionid = collections.collectionid
         <where>
             <if test="null!=str and ''!=str">
-                and repairableid like '%${str}%'
-                or collectionid like '%${str}%'
-                or repairaddress like '%${str}%'
-                or empname like '%${str}%'
+                and repair.repairableid like '%${str}%'
+                or repair.collectionid like '%${str}%'
+                or repair.repairaddress like '%${str}%'
+                or employee.empname like '%${str}%'
+                or collections.collectionname like '%${str}%'
             </if>
         </where>
     </select>
@@ -29,25 +32,25 @@
     <update id="updaterepair" parameterType="map">
         update repair <set>
         <if test="null!=collectionid and ''!=collectionid">
-            collectionid = #{collectionid}
+            collectionid = #{collectionid},
         </if>
         <if test="null!=timelong and ''!=timelong">
-            timelong = #{timelong}
+            timelong = #{timelong},
         </if>
         <if test="null!=repairaddress and ''!=repairaddress">
-            repairaddress = #{repairaddress}
+            repairaddress = #{repairaddress},
         </if>
         <if test="null!=empid and ''!=empid">
-            empid = #{empid}
+            empid = #{empid},
         </if>
         <if test="null!=date and ''!=date">
-            date = #{date}
+            date = #{date},
         </if>
         <if test="null!=repairstate and ''!=repairstate">
-            repairstate = #{repairstate}
+            repairstate = #{repairstate},
         </if>
         <if test="null!=oktime and ''!=oktime">
-            oktime = #{oktime}
+            oktime = #{oktime},
         </if>
         <if test="null!=remark and ''!=remark">
             remark = #{remark}

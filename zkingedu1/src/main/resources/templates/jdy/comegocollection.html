@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>出入库产品列表列表</title>
+</head>
+<link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}"/>
+<script th:src="@{/admin/layui/layui.js}" charset="utf-8"></script>
+<script src="/admin/js/jquery.min.js"></script>
+<script src="/admin/js/xadmin.js"></script>
+<body>
+<style  type="text/css" >
+  /*.layui-table-cell{*/
+    /*height:40px;*/
+    /*line-height: 40px;*/
+  /*}*/
+  .layui-table-cell {
+      height: auto !important;
+      white-space: normal;
+  }
+</style>
+
+
+<div style="text-align: center;" >
+  <div class="demoTable" style="margin-top: 30px">
+      <span style="font-family:FZShuTi;font-size: 35px;">大观文化</span>
+</div>
+
+        <div class="layui-inline">
+          <table class="layui-hide" id="LAY_table_collection" lay-filter="LAY_table_collection" ></table>
+        </div>
+</div>
+
+<script th:inline="javascript">
+    //thymeleaf获取作用域的值
+    var comegoid = [[${comegoid}]]
+</script>
+
+
+
+<script>
+  layui.use(['table'], function(){
+
+    var table = layui.table
+    ,layer = layui.layer
+    ,form = layui.form;
+
+    //方法级渲染
+    var tableIns = table.render({
+        elem: '#LAY_table_collection'
+        ,url: '/cwarehouse/ccshow?comegoid='+comegoid
+        ,limit:10
+        ,toolbar:true
+        ,defaultToolbar: ['filter', 'print', 'exports']
+        ,cols: [ [
+            // {field:'comegoid', title: '出入库ID',align:'center', sort: true,width:150}
+            // ,
+            {field:'collectionid', title: '藏品ID',align:'center',width:100}
+            ,{field:'collectionno', title: '藏品编号',align:'center',width:180}
+            ,{field:'collectionname', title: '藏品名称',align:'center',width:180}
+            ,{align:'center', field: 'image',title: '图片',templet: function(d){
+                    return '<div><img onclick="show_img(this)"  style="cursor:pointer" src="'+d.image+'" alt="无图片" width="70px" height="50px"></div>';
+                }}
+            ,{fixed: 'right', title:'操作' ,align:'center',fixed: 'right',templet: function(d){
+                  return '<button type="button" class="layui-btn layui-btn-normal layui-btn-radius" lay-event="del">删除</button>';
+              },width:100}
+          ] ]
+        ,id: 'testReload'
+        // ,page: true
+        ,height: 750
+      });
+
+
+    //点击操作按钮时按钮时触发
+    table.on('tool(LAY_table_collection)', function(obj){
+      var data = obj.data;
+      if(obj.event === 'del'){
+        layer.confirm('确定要删除该出库藏品吗?', function(index){
+          $.ajax({
+              url:'/cwarehouse/delcomego',
+              type:'post',
+              data:{
+                  collectionid:data.collectionid,
+                  comego:0
+              },
+              success:function (result) {
+                  if(result=="ok"){
+                      obj.del();
+                      layer.close(index);
+                  }else{
+                      layer.msg("出现bug了，请联系9527")
+                  }
+              },
+              error:function () {
+                  layer.msg("出现bug了，请联系921607915")
+              }
+          });
+        });
+      }
+    });
+  });
+</script>
+</body>
+</html>

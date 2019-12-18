@@ -2,13 +2,11 @@ package com.zking.zkingedu.common.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.zking.zkingedu.common.model.Collections;
 import com.zking.zkingedu.common.service.CollectionsService;
 import com.zking.zkingedu.common.service.RepairService;
 import com.zking.zkingedu.common.utils.SuperController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -46,6 +44,27 @@ public class RepairController extends SuperController {
         }catch (Exception e){
             e.printStackTrace();
             return "修复记录添加失败!";
+        }
+    }
+
+
+    /**
+     * 点击修复完成
+     */
+    @RequestMapping("/updaterepair")
+    @ResponseBody
+    @Transactional//事物
+    public String repairok(HttpServletRequest request){
+        try {
+            Map map1 = getMap(request);
+            map1.put("oktime",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            map1.put("repairstate","1");
+            repairService.updaterepair(map1);
+            collectionsService.updatecollection(map1);
+            return "修复成功!";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "修复失败!";
         }
     }
 

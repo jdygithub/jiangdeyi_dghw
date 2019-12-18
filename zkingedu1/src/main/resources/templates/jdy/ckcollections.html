@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>选择出库藏品</title>
+</head>
+<link rel="stylesheet" th:href="@{/admin/layui/css/layui.css}"/>
+<script th:src="@{/admin/layui/layui.js}" charset="utf-8"></script>
+<script src="/admin/js/jquery.min.js"></script>
+<script src="/admin/js/xadmin.js"></script>
+<body>
+<style  type="text/css" >
+  .layui-table-cell {
+  height: auto !important;
+  white-space: normal;
+  }
+</style>
+<!--<script type="text/html" id="toolbarDemo">-->
+  <!--<div class="layui-btn-container">-->
+    <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>-->
+    <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>-->
+  <!--</div>-->
+<!--</script>-->
+
+<div style="text-align: center;" >
+    <div class="layui-card" style="width: 1200px;margin:0 auto">
+
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>藏品出库选择</legend>
+  </fieldset>
+      <form class="layui-form layui-form-pane" action="">
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">出库用途</label>
+          <div class="layui-input-inline">
+            <input type="text"  name="cwarehousetext" id="cwarehousetext" autocomplete="off" class="layui-input"  style="width: 400px">
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">预还日期</label>
+            <div class="layui-input-inline">
+              <input type="text" name="returndate" id="returndate" lay-verify="returndate" placeholder="点击选择预计日期" autocomplete="off" class="layui-input" readonly="readonly">
+            </div>
+          </div>
+        </div>
+        <!--<div class="layui-form-item">-->
+          <!--<label class="layui-form-label">地点类型</label>-->
+          <!--<div class="layui-input-inline">-->
+            <!--<select id="select" lay-filter="Select" name="addressa" lay-verify="selecta">-->
+              <!--<option value="内部">内部修复</option>-->
+              <!--<option value="外部">外出修复</option>-->
+            <!--</select>-->
+          <!--</div>-->
+          <!--<div class="layui-inline">-->
+            <!--<label class="layui-form-label">地址</label>-->
+            <!--<div class="layui-input-inline" >-->
+              <!--<input type="text" name="addressb" autocomplete="off" class="layui-input"  id="address" lay-verify="address" value="修复部304室">-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">备注</label>
+          <div class="layui-input-block">
+            <textarea placeholder="请输入内容" class="layui-textarea" name="remark" id="remark"></textarea>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  <!--text-->
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>出库藏品选择</legend>
+  </fieldset>
+  <div class="layui-btn-container">
+    <button type="button" class="layui-btn" lay-demotransferactive="Reload">重置</button>
+    <button type="button" class="layui-btn" lay-demotransferactive="getData">确定出库</button>
+  </div>
+
+  <div id="test7" class="demo-transfer"></div>
+  <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>藏品查询</legend>
+  </fieldset>
+  <div class="demoTable" style="margin-top: 30px">
+          <div class="layui-inline">
+            <div class="layui-input-inline" style="margin-left: -200px ">
+              <div class="layui-form">
+                <div class="layui-inline">
+                  <div class="layui-inline">
+                    <label class="layui-form-label"><span style="font-family:STXinwei;font-size: 20px">藏品类型</span></label>
+                    <div class="layui-input-inline layui-input-inline-add">
+                      <select id="Select" lay-filter="Select" name="aaa" lay-search="">
+                        <option value="">请选择藏品类型</option>
+                        <optgroup label="文物" th:each="item:${session.typelist}" th:label="${item.collectiontypename}">
+                          <option value="8" th:each="itema:${item.types}" th:value="${itema.collectiontypeid}" th:text="${itema.collectiontypename}">历史文物</option>
+                        </optgroup>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="layui-input-inline" style="margin-left: 200px">
+              <span style="font-family:STXinwei;font-size: 20px">关键字搜索</span>
+              <div class="layui-inline">
+                <input class="layui-input" name="str" id="demoReload" autocomplete="off"  placeholder="ID,编号,类别,名称">
+              </div>
+              <button class="layui-btn" data-type="reload" id="search">搜索</button>
+            </div>
+          </div>
+  </div>
+        <div class="layui-inline">
+          <table class="layui-hide" id="LAY_table_collection" lay-filter="LAY_table_collection" ></table>
+        </div>
+
+
+
+</div>
+
+
+<script>
+
+  layui.use(['table','transfer', 'layer', 'util','form','laydate'], function(){
+    var $ = layui.jquery
+    var table = layui.table
+    ,layer = layui.layer
+    ,util = layui.util
+    ,transfer = layui.transfer
+    ,form = layui.form
+     ,laydate = layui.laydate;
+    var data1
+    $.ajax({
+      type : "POST",
+      url : "cwarehouse/getcollectionsbycr",
+      // data : {
+      //   existing:1
+      // },
+      success : function(data) {
+        //实例调用
+        transfer.render({
+          elem: '#test7'
+          , title: ['藏品名称预览', '选中出库藏品名称']  //自定义标题
+          ,data: data
+          ,width: 450 //定义宽度
+          ,height: 500 //定义高度
+          ,showSearch: true//搜索功能
+          ,id: 'key123' //定义唯一索引
+        })
+      },
+      error : function(e) {
+        layer.alert("出现BUG,请联系XXXXXXXX");
+      }
+    });
+    //日期
+    laydate.render({
+      elem: '#returndate'
+    });
+
+    //批量办法定事件
+    util.event('lay-demoTransferActive', {
+      getData: function(othis){
+        var remark = $("#remark").val()//备注
+        var empid = 1//用户ID 员工ID
+        var returndate = $("#returndate").val()//拟还日期
+        var cwarehousetext = $("#cwarehousetext").val()//出库用途详细信息
+        var getData = transfer.getData('key123'); //获取右侧数据
+        var ids = [];
+        for(var i=0;i<getData.length;i++){
+          ids.push(getData[i].value)
+        }
+        var s1 = JSON.stringify(ids);
+        var str = s1.substring(1,s1.length-1);//选中产品ID
+          if(cwarehousetext==''||cwarehousetext==undefined){
+            layer.alert('出库用途还未填写');
+          }
+          else if(returndate==''||returndate==undefined){
+            layer.alert('日期请选择');
+          }
+          else if(str.length==0){
+            layer.alert('请选择你要出库的藏品');
+          }
+          else{
+            // layer.alert('str: '+str+'remark:'+remark+'empid:'+empid+'returndate:'+returndate+'cwarehousetext:'+cwarehousetext);
+            $.ajax({
+              type : "POST",
+              url : "cwarehouse/addcwarehouse",
+              data : {
+                str:str,
+                remark:remark,
+                empid:empid,
+                returndate:returndate,
+                cwarehousetext:cwarehousetext
+              },
+              success : function(data) {
+                if(data=='ok'){
+                  layer.msg("出库操作成功", {icon:1,time:400},function(){
+                    setTimeout('window.location.reload()',100);
+                  });
+                }
+                else{
+                  layer.msg("出现bug,请联系XXXXXXXX", {icon:2,time:1000},function(){
+                    setTimeout('window.location.reload()',1000);
+                  });
+                }
+              },
+              error : function(e) {
+                layer.alert("出现BUG,请联系XXXXXXXX");
+              }
+            });
+          }
+      }
+      ,Reload:function(){
+        //实例重载
+        transfer.reload('key123', {
+          value: []
+        })
+      }
+    });
+
+    //方法级渲染
+    var tableIns = table.render({
+        elem: '#LAY_table_collection'
+        ,url: '/collections/getcollections?status=1'//状态为1的 是审核通过的
+        ,limit:5
+        // ,toolbar: '#toolbarDemo' //开启头部工具栏，并为其绑定左侧模板
+        ,toolbar: true //开启头部工具栏，并为其绑定左侧模板
+        ,defaultToolbar: ['filter', 'print', 'exports']
+        ,cols: [ [
+            // {type: 'checkbox'},
+            {field:'collectionid', title: '藏品ID',align:'center', sort: true,width:100}
+            ,{field:'collectionnotype', title: '编号类别',align:'center',width:180}
+            ,{field:'collectionno', title: '藏品编号',align:'center',width:220}
+            ,{field:'collectionname', title: '藏品名称',align:'center',width:220}
+            ,{field:'collectionyear', title: '藏品年代',align:'center',width:220}
+            ,{field:'collectiontypename', title: '藏品类别',align:'center',width:150}
+            ,{field:'collectionlevel', title: '藏品级别',align:'center',width:130}
+            ,{align:'center', field: 'image',title: '图片',templet: function(d){
+                  return '<div><img onclick="show_img(this)" style="cursor:pointer" src="'+d.image+'" alt="无图片" width="170px" height="100px"></a></div>';
+            // return '<div onclick="show_img(this)"><img src="'+d.image+'" alt="无图片" width="170px" height="100px"></a></div>';
+              },width:180}
+            // ,{field:'image',align:'center', title: '图片',templet: '#images'}
+            // ,{field:'collectionstatus',align:'center', title: '状态',templet: '#switchTpl', unresize: true,width:100}
+            // ,{fixed: 'right', title:'操作' ,align:'center',toolbar: '#barDemo',fixed: 'right',width:250}
+          ] ]
+        ,id: 'testReload'
+        ,page: true
+        ,height: 750
+      });
+
+    // //头工具栏事件
+    // table.on('toolbar(LAY_table_collection)', function(obj){
+    //   var checkStatus = table.checkStatus(obj.config.id);
+    //   switch(obj.event){
+    //     case 'getCheckData':
+    //       var data = checkStatus.data;
+    //       //获取选中数据的ID字段
+    //       var ids = [];
+    //       for(var i=0;i<data.length;i++){
+    //         ids.push(data[i].collectionid)
+    //       }
+    //       layer.alert(JSON.stringify(ids));
+    //       break;
+    //     case 'getCheckLength':
+    //       var data = checkStatus.data;
+    //       layer.msg('选中了：'+ data.length + ' 个');
+    //       break;
+    //     case 'isAll':
+    //       layer.msg(checkStatus.isAll ? '全选': '未全选');
+    //       break;
+    //
+    //           //自定义头工具栏右侧图标 - 提示
+    //     case 'LAYTABLE_TIPS':
+    //       layer.alert('这是工具栏右侧自定义的一个图标按钮');
+    //       break;
+    //   };
+    // });
+
+    var tid ;
+    //监听到下拉选框选中值发生改变
+    form.on('select(Select)',function(data){
+      tid = data.value;
+      // layer.alert(JSON.stringify(data.value));
+      //执行重载
+      tableIns.reload({
+        page: {
+          curr: 1 //重新从第 1 页开始
+        }
+        ,where: {
+          typeid:data.value,
+          str:$('#demoReload').val()
+        }
+      });
+    })
+
+//搜索点击事件
+    $("#search").on('click', function(){
+      //执行重载
+      tableIns.reload({
+        page: {
+          curr: 1 //重新从第 1 页开始
+        }
+        ,where: {
+          typeid:tid,
+          str:$('#demoReload').val()
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zking.zkingedu.common.dao.RwarehouseDao">
+
+
+    <!--//添加入库表  返回主键-->
+    <insert id="addrwarehouse"  parameterType="map">
+        insert into rwarehouse(rwarehouseid,rwarehousedate,empid,rwarehouseidnumber,remark)
+        values(#{rwarehouseid},#{rwarehousedate},#{empid},#{rwarehouseidnumber},#{remark});
+    </insert>
+
+    <!--查询入库表-->
+    <select id="getrwarehouse" resultType="map" parameterType="map">
+        select
+        rwarehouseid,rwarehousedate,rwarehouseidnumber,employee.empname,remark
+        from rwarehouse
+        left join employee on rwarehouse.empid = employee.empid
+        <where>
+            <if test="null!=str and ''!=str">
+                employee.empname like '%${str}%'
+            </if>
+        </where>
+    </select>
+    
+</mapper>

@@ -57,20 +57,26 @@
         ,cols: [ [
             {field:'repairableid', title: '修复ID',align:'center', sort: true,width:100}
             ,{field:'collectionid', title: '藏品ID',align:'center',width:100}
+            ,{field:'collectionname', title: '藏品名称',align:'center',width:100}
             ,{field:'timelong', title: '修复拟定日期',align:'center',width:200,templet: function(d){
             return d.date+' ~ '+d.timelong || '----';
           }}
             ,{field:'repairaddress', title: '修复地点',align:'center',width:200}
             ,{field:'empname', title: '经手人',align:'center',width:100}
             // ,{field:'date', title: '申请时间',align:'center',width:150}
-            ,{field:'oktime',align:'center', title: '修复提交',width:150,templet: function(d){
-                return d.oktime || '----';
+            ,{field:'oktime',align:'center', title: '实际修复日期',width:200,templet: function(d){
+                if(d.oktime != undefined & d.oktime != '' & d.oktime != null){
+                    return d.date+' ~ '+d.oktime
+                }
+                else{
+                    return '----';
+                }
               }}
             ,{field:'repairstate',align:'center', title: '当前状态',templet: function(d){
               if(d.repairstate == 0){//修复中
-                return '修复中' ;
+                return '<font color="red">修复中</font>' ;
               }else if(d.repairstate == 1){//已经完成
-                return '已完成';
+                return '<font color="green">已完成</font>';
                 }
              },width:100}
              ,{field:'remark',align:'center', title: '备注',width:200,templet: function(d){
@@ -90,7 +96,7 @@
         ,page: true
         ,height: 750
       });
-//搜索点击事件
+//搜索点击事件search
     $("#search").on('click', function(){
       //执行重载
       tableIns.reload({
@@ -98,7 +104,6 @@
           curr: 1 //重新从第 1 页开始
         }
         ,where: {
-          typeid:tid,
           str:$('#demoReload').val()
         }
       });
@@ -152,24 +157,18 @@
           }
         });
       }
-      else if(obj.event === 'okrep'){//修改图片
+      else if(obj.event === 'okrep'){//修复完成
         layer.open({
-          title: "修复申请信息",
+          title: "修复完成信息填写",
           type: 2,
           skin: 'layui-layer-rim', //加上边框
-          area: [window.screen.width / 1.5 + 'px', window.screen.height / 1.45 + 'px'], //宽高
+          area: [window.screen.width / 1.5 + 'px', window.screen.height / 2.18 + 'px'], //宽高
           maxmin: true, //开启最大化最小化按钮
-          content: "/addrepair?collectionid="+obj.data.collectionid,
+          content: "/repairok?collectionid="+obj.data.collectionid+"&collectionname="+obj.data.collectionname+"&repairableid="+obj.data.repairableid,
         });
       }
     });
   });
 </script>
-
-
-<!--<script type="text/html" id="barDemo">-->
-  <!--<button type="button" class="layui-btn layui-btn-normal layui-btn-radius" lay-event="text">删除记录</button>-->
-  <!--<button type="button" class="layui-btn layui-btn-warm layui-btn-radius" lay-event="edit">修复完成</button>-->
-<!--</script>-->
 </body>
 </html>

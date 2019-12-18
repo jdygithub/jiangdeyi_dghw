@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zking.zkingedu.common.dao.QuweicollectionsDao">
+
+    <!--//添加该区位的藏品信息-->
+    <insert id="addquweicollections" parameterType="map">
+        insert into quweicollections(quweiid,collectionid)
+        values(#{quweiid},#{collectionid})
+    </insert>
+    <!--//查询该区位的藏品信息-.................................................................-->
+    <select id="getquweicollections"  resultType="map" parameterType="map">
+        select quweicollectionsid,quweiid,quweicollections.collectionid,collections.collectionno,collections.collectionname
+        from quweicollections
+        LEFT JOIN collections on quweicollections.collectionid = collections.collectionid
+        <if test="null!=quweiid and ''!=quweiid">
+           where quweiid = #{quweiid}
+        </if>
+    </select>
+    <!--删除该区位的藏品信息-.................................................................-->
+    <delete id="delquweicollections" parameterType="map">
+        delete from quweicollections where quweicollectionsid = #{quweicollectionsid}
+    </delete>
+    <!--//修改该区位的藏品信息-................................................................. -->
+    <update id="updatequweicollections" parameterType="map">
+        update quweicollections <set>
+        <if test="null!=quweiid and ''!=quweiid">
+            quweiid = #{quweiid},
+        </if>
+    </set>
+         where collectionid = #{collectionid}
+    </update>
+
+
+</mapper>

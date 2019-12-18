@@ -59,6 +59,7 @@ public class CollectionsController extends SuperController {
         String limit = (String)map1.get("limit");
         Page<Object> objects = PageHelper.startPage(Integer.parseInt(page), Integer.parseInt(limit));
         Map<String,Object> map = new HashMap<>();
+        System.err.println(map1);
         List<Map> getcollections = collectionsService.getcollections(map1);
         map.put("code","0");
         map.put("msg","");
@@ -208,7 +209,6 @@ public class CollectionsController extends SuperController {
     @RequestMapping("/addtype")
     @ResponseBody
    public String addtype(@ModelAttribute Collectiontype collectiontype){
-       System.err.println(collectiontype);
        int addtype = collectiontypeService.addtype(collectiontype);
        if(addtype!=1){
            return "error";
@@ -225,15 +225,15 @@ public class CollectionsController extends SuperController {
         try{
             Map map1 = getMap(request);
             String collectionid = (String)map1.get("collectionid");
-            String dataStr = (String)map1.get("dataStr");
+            String dataStr = map1.get("dataStr").toString();
             System.err.println(collectionid);
             System.err.println("-----------------------------------------------------");
             System.err.println(dataStr);
-            List<String> strsToList1= Arrays.asList(dataStr);
             System.err.println("-----------------------------------------------------");
-                System.err.println(strsToList1.size());
-//            String[] strarr = dataStr.split(",");
-//            System.out.println(strarr);
+            String[] strarr = dataStr.split(",");
+            for (String s : strarr) {
+                System.err.println(s.replaceAll("[\\{\\}\\[\\]]", ""));
+            }
             return "ok";
         }catch (Exception e){
             e.printStackTrace();

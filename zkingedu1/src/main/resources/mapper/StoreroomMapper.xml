@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zking.zkingedu.common.dao.StoreroomDao">
+
+    <!--//添加库房-->
+    <insert id="addstoreroom" parameterType="map">
+        insert into storeroom(storeroomname,storeroomtext,storeroomtemperature,storeroomhumidness,empid,remark)
+        values (#{storeroomname},#{storeroomtext},#{storeroomtemperature},#{storeroomhumidness},#{empid},#{remark})
+    </insert>
+    <!--//查询所有库房-->
+    <select id="getstorerooms"  resultType="map" parameterType="map">
+        select storeroomid,storeroomname,storeroomtext,storeroomtemperature,storeroomhumidness,employee.empname,remark
+        from storeroom
+        LEFT JOIN employee on storeroom.empid = employee.empid
+        <where>
+            <if test="null!=str and ''!=str">
+                storeroomid like '%${str}%'
+                or storeroomname like '%${str}%'
+                or employee.empname like '%${str}%'
+            </if>
+        </where>
+    </select>
+
+<!--查询单个库房-->
+    <select id="getstoreroom"  resultType="map" parameterType="map">
+        select storeroomid,storeroomname,storeroomtext,storeroomtemperature,storeroomhumidness,storeroom.empid,employee.empname,remark
+        from storeroom
+        LEFT JOIN employee on storeroom.empid = employee.empid
+        where storeroomid = #{storeroomid}
+    </select>
+
+    <!--删除单个库房信息-->
+    <delete id="delstoreroom" parameterType="map">
+        delete from storeroom where storeroomid = #{storeroomid}
+    </delete>
+
+    <!--修改库房信息-->
+    <update id="updatestoreroom" parameterType="map">
+        update storeroom
+        <set>
+            <if test="null!=storeroomname and ''!=storeroomname">
+                storeroomname = #{storeroomname},
+            </if>
+
+            <if test="null!=storeroomtext and ''!=storeroomtext">
+                storeroomtext = #{storeroomtext},
+            </if>
+
+            <if test="null!=empid and ''!=empid">
+                empid = #{empid},
+            </if>
+
+            <if test="null!=remark and ''!=remark">
+                remark = #{remark},
+            </if>
+        </set>
+        where storeroomid = #{storeroomid}
+    </update>
+</mapper>

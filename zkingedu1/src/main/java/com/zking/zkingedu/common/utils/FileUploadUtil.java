@@ -49,7 +49,7 @@ public class FileUploadUtil {
 			extName = orignalName.substring(index);
 		}
 		String fileName = UUID.randomUUID() + extName;
-//		String dirName = config.getFileStoreLocation() + dateStr + "/";
+//		String dirName = config.getFileStoreLocation() + dateStr + "/";//添加时间目录
 		String dirName = config.getFileStoreLocation();
 		// 创建文件夹
 		if (!new File(dirName).exists()) {

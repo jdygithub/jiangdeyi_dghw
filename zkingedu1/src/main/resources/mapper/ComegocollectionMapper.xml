@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zking.zkingedu.common.dao.ComegocollectionDao">
+
+    <!--//添加出入库藏品-->
+    <insert id="addcomego" parameterType="map">
+        insert into comegocollection(comegoid,collectionid,comego,okandno)
+        values ${str}
+    </insert>
+    <!--//查询出入库藏品-->
+    <select id="getcomego"  resultType="map" parameterType="map">
+        select comegoid,collections.collectionid,collectionno,collectionname
+        from comegocollection
+        LEFT JOIN collections on comegocollection.collectionid = collections.collectionid
+        <where>
+            <if test="null!=comegoid and ''!=comegoid">
+                comegoid = #{comegoid}
+            </if>
+            <if test="null!=comego and ''!=comego">
+                comego = #{comego}
+            </if>
+        </where>
+    </select>
+    <!--删除出入库藏品信息-->
+    <delete id="delcomego" parameterType="map">
+        delete from comegocollection where collectionid = #{collectionid} and comego = #{comego}
+    </delete>
+
+    <!--入库后修改对应藏品的 出入库状态-->
+    <update id="updatecomego" parameterType="map">
+        update comegocollection set comego=1
+        where collectionid in (${str})
+    </update>
+</mapper>
