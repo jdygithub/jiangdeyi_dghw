@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.zkingedu.common.dao.Emp_RoleMapper" >
+
+  <insert id="insert">
+    insert into emp_role (empid, roleid)
+    values (#{empid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" >
+    insert into emp_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="empid != null" >
+        empid,
+      </if>
+      <if test="roleid != null" >
+        roleid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="empid != null" >
+        #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+<select id="findRoleIdsByUserId" resultType="java.lang.Integer">
+  select roleid
+  from emp_role
+  where empid=#{empid,jdbcType=INTEGER}
+</select>
+
+  <insert id="insertObject">
+    insert into emp_role
+    (empid,roleid)
+    values
+    <foreach collection="roleIds" separator="," item="item">
+      (#{userId},#{item})
+    </foreach>
+  </insert>
+
+  <delete id="deleteObjectByRoleId">
+    delete from emp_role
+    where roleid=#{roleid,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteObjectByUserId">
+    delete from emp_role
+    where empid=#{empid,jdbcType=INTEGER}
+  </delete>
+</mapper>

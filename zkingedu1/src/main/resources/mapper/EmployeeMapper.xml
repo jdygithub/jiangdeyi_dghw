@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.zkingedu.common.dao.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.zkingedu.common.model.Employee" >
+    <id column="empid" property="empid" jdbcType="INTEGER" />
+    <result column="empname" property="empname" jdbcType="VARCHAR" />
+    <result column="emppassword" property="emppassword" jdbcType="VARCHAR" />
+    <result column="empimage" property="empimage" jdbcType="VARCHAR" />
+    <result column="createdate" property="createdate" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="AllInfo" type="java.util.HashMap">
+    <result column="empname" property="empname" jdbcType="VARCHAR" />
+      <result column="rolename" property="rolename" jdbcType="VARCHAR" />
+      <result column="menuname" property="menuname" jdbcType="VARCHAR" />
+      <result column="menuname" property="menuname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    empid, empname, emppassword, empimage, createdate, state
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from employee
+    where empid = #{empid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from employee
+    where empid = #{empid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="empid" parameterType="com.zking.zkingedu.common.model.Employee" >
+    insert into employee (empid, empname, emppassword, 
+      empimage, createdate, state
+      )
+    values (#{empid,jdbcType=INTEGER}, #{empname,jdbcType=VARCHAR}, #{emppassword,jdbcType=VARCHAR}, 
+      #{empimage,jdbcType=VARCHAR}, now(), #{state,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zking.zkingedu.common.model.Employee" >
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="empid != null" >
+        empid,
+      </if>
+      <if test="empname != null" >
+        empname,
+      </if>
+      <if test="emppassword != null" >
+        emppassword,
+      </if>
+      <if test="empimage != null" >
+        empimage,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="empid != null" >
+        #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="empname != null" >
+        #{empname,jdbcType=VARCHAR},
+      </if>
+      <if test="emppassword != null" >
+        #{emppassword,jdbcType=VARCHAR},
+      </if>
+      <if test="empimage != null" >
+        #{empimage,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zking.zkingedu.common.model.Employee" >
+    update employee
+    <set >
+      <if test="empname != null" >
+        empname = #{empname,jdbcType=VARCHAR},
+      </if>
+      <if test="emppassword != null" >
+        emppassword = #{emppassword,jdbcType=VARCHAR},
+      </if>
+      <if test="empimage != null" >
+        empimage = #{empimage,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where empid = #{empid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey"  useGeneratedKeys="true" keyProperty="empid" parameterType="com.zking.zkingedu.common.model.Employee" >
+    update employee
+    set empname = #{empname,jdbcType=VARCHAR},
+      emppassword = #{emppassword,jdbcType=VARCHAR},
+      empimage = #{empimage,jdbcType=VARCHAR},
+      createdate = #{createdate,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER}
+    where empid = #{empid,jdbcType=INTEGER}
+  </update>
+  <!-- 根据用户名查找用户信息-->
+  <select id="findEmpByUsername" resultType="com.zking.zkingedu.common.model.Employee">
+    select
+    *
+    from  employee
+    where empname = #{empname,jdbcType=VARCHAR}
+  </select>
+
+<select id="findEmpPermissions" resultType="map">
+  select
+  a.empname,c.rolename,e.menuname,e.menuurl
+  from  employee a
+  join emp_role b
+  join role c
+  join menu_role d join menu e
+  on a.empid=b.empid and
+  b.roleid=c.roleid and
+  c.roleid=d.roleid and
+  d.menuid=e.menuid
+    where a.empname = #{empname,jdbcType=VARCHAR}
+
+</select>
+
+  <select id="findPermissions" resultType="com.zking.zkingedu.common.model.Menu">
+  select
+  e.*
+  from  employee a
+  join emp_role b
+  join role c
+  join menu_role d join menu e
+  on a.empid=b.empid and
+  b.roleid=c.roleid and
+  c.roleid=d.roleid and
+  d.menuid=e.menuid
+    where a.empid = #{empid,jdbcType=INTEGER}
+
+</select>
+
+<update id="StateById" parameterType="com.zking.zkingedu.common.model.Employee">
+  update employee
+        set state=#{state}
+        where empid=#{empid,jdbcType=INTEGER}
+</update>
+
+  <select id="findObjectById"
+          resultType="map">
+             select *
+             from employee
+             where empid=#{empid,jdbcType=INTEGER}
+     </select>
+
+  <select id="findAllEmpUser" resultType="com.zking.zkingedu.common.model.Employee">
+    select * from employee
+
+  </select>
+
+  <select id="AllMessions" resultType="com.zking.zkingedu.common.model.Menu">
+  select
+  c.*
+  from   menu c
+</select>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.zkingedu.common.dao.HomePageMapper" >
+
+    <select id="SelectType" resultType="map">
+        select count(b.collectiontypename)"collectioncount",b.collectiontypename
+        from collections a  join collectiontype b
+        ON a.collectiontypeid =b.collectiontypeid GROUP BY b.collectiontypeid
+    </select>
+
+    <select id="SelectList" resultType="com.zking.zkingedu.common.model.Echarts">
+        select count(b.collectiontypename)"collectioncount",b.collectiontypename
+        from collections a  join collectiontype b
+        ON a.collectiontypeid =b.collectiontypeid GROUP BY b.collectiontypeid
+    </select>
+</mapper>

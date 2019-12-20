@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.zkingedu.common.dao.Menu_RoleMapper" >
+
+  <insert id="insert">
+    insert into menu_role (roleid, menuid)
+    values (#{roleid,jdbcType=INTEGER}, #{menuid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective">
+    insert into menu_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        roleid,
+      </if>
+      <if test="menuid != null" >
+        menuid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="menuid != null" >
+        #{menuid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 查询关系表中是否有对应的menuId -->
+  <select id="getMenuCount"
+          resultType="int">
+           select count(*)
+           from menu_role
+           where menuid=#{menuid,jdbcType=INTEGER}
+      </select>
+
+  <insert id="insertObject">
+    insert into menu_role
+    (roleid,menuid)
+    values
+    <foreach collection="menuIds"
+             separator=","
+             item="item">
+      (#{roleId},#{item})
+    </foreach>
+  </insert>
+
+
+  <!-- 根据角色id查询菜单 -->
+  <select id="findMenuIdsByRoleId"
+          resultType="int">
+            select menuid
+            from menu_role
+            where roleid=#{roleId}
+      </select>
+
+  <delete id="deleteObjectByRoleId"
+          parameterType="int">
+           delete from menu_role
+           where roleid=#{roleId}
+      </delete>
+
+  <delete id="deleteObjectByMenuId"
+          parameterType="int">
+           delete from menu_role
+           where menuid=#{menuId}
+      </delete>
+</mapper>
+
