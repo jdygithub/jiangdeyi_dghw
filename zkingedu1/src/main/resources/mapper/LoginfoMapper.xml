@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.zkingedu.common.dao.LoginfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.zkingedu.common.model.Loginfo" >
+    <id column="logid" property="logid" jdbcType="INTEGER" />
+    <result column="empid" property="empid" jdbcType="INTEGER" />
+    <result column="operationtext" property="operationtext" jdbcType="VARCHAR" />
+    <result column="operationdate" property="operationdate" jdbcType="DATE" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="remoteAddr" property="remoteAddr" jdbcType="VARCHAR" />
+    <result column="requestUri" property="requestUri" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="params" property="params" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    logid, empid, operationtext, operationdate, title, remoteAddr, requestUri, method,
+    params
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from loginfo
+    where logid = #{logid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from loginfo
+    where logid = #{logid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zking.zkingedu.common.model.Loginfo" >
+    insert into loginfo (logid, empid, operationtext,
+      operationdate, title, remoteAddr,
+      requestUri, method, params
+      )
+    values (#{logid,jdbcType=INTEGER}, #{empid,jdbcType=INTEGER}, #{operationtext,jdbcType=VARCHAR},
+      #{operationdate,jdbcType=DATE}, #{title,jdbcType=VARCHAR}, #{remoteAddr,jdbcType=VARCHAR},
+      #{requestUri,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zking.zkingedu.common.model.Loginfo" >
+    insert into loginfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logid != null" >
+        logid,
+      </if>
+      <if test="empid != null" >
+        empid,
+      </if>
+      <if test="operationtext != null" >
+        operationtext,
+      </if>
+      <if test="operationdate != null" >
+        operationdate,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="remoteaddr != null" >
+        remoteAddr,
+      </if>
+      <if test="requesturi != null" >
+        requestUri,
+      </if>
+      <if test="method != null" >
+        method,
+      </if>
+      <if test="params != null" >
+        params,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logid != null" >
+        #{logid,jdbcType=INTEGER},
+      </if>
+      <if test="empid != null" >
+        #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="operationtext != null" >
+        #{operationtext,jdbcType=VARCHAR},
+      </if>
+      <if test="operationdate != null" >
+        #{operationdate,jdbcType=DATE},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteaddr != null" >
+        #{remoteaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="requesturi != null" >
+        #{requesturi,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null" >
+        #{params,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zking.zkingedu.common.model.Loginfo" >
+    update loginfo
+    <set >
+      <if test="empid != null" >
+        empid = #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="operationtext != null" >
+        operationtext = #{operationtext,jdbcType=VARCHAR},
+      </if>
+      <if test="operationdate != null" >
+        operationdate = #{operationdate,jdbcType=DATE},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteaddr != null" >
+        remoteAddr = #{remoteaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="requesturi != null" >
+        requestUri = #{requesturi,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null" >
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where logid = #{logid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zking.zkingedu.common.model.Loginfo" >
+    update loginfo
+    set empid = #{empid,jdbcType=INTEGER},
+      operationtext = #{operationtext,jdbcType=VARCHAR},
+      operationdate = #{operationdate,jdbcType=DATE},
+      title = #{title,jdbcType=VARCHAR},
+      remoteAddr = #{remoteaddr,jdbcType=VARCHAR},
+      requestUri = #{requesturi,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR}
+    where logid = #{logid,jdbcType=INTEGER}
+  </update>
+
+  <select id="AllLog" resultType="com.zking.zkingedu.common.model.Loginfo">
+  select
+    *
+  from   loginfo
+</select>
+</mapper>

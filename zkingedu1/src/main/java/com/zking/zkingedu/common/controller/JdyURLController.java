@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("jdy")
 public class JdyURLController extends SuperController {
     @Autowired
     private CollectiontypeService collectiontypeService;

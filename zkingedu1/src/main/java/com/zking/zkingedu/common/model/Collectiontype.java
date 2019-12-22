@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * 藏品类别表
  */
-@Data
 @Component
 public class Collectiontype implements Serializable {
     private static final long serialVersionUID = -4112338268061549658L;
@@ -18,4 +17,39 @@ public class Collectiontype implements Serializable {
     private Integer collectionparenttypeid;//藏品父类别ID
     private List<Collectiontype> types;  //子类别
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Integer getCollectiontypeid() {
+        return collectiontypeid;
+    }
+
+    public void setCollectiontypeid(Integer collectiontypeid) {
+        this.collectiontypeid = collectiontypeid;
+    }
+
+    public String getCollectiontypename() {
+        return collectiontypename;
+    }
+
+    public void setCollectiontypename(String collectiontypename) {
+        this.collectiontypename = collectiontypename;
+    }
+
+    public Integer getCollectionparenttypeid() {
+        return collectionparenttypeid;
+    }
+
+    public void setCollectionparenttypeid(Integer collectionparenttypeid) {
+        this.collectionparenttypeid = collectionparenttypeid;
+    }
+
+    public List<Collectiontype> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<Collectiontype> types) {
+        this.types = types;
+    }
 }

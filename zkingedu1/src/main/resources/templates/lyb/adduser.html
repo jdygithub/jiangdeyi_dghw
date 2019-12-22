@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" type="text/css" href="admin/layui/css/layui.css"/>
+    <script src="admin/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+    <title>Document</title>
+    <style>
+        .layui-form-select{width: 250px;}
+    </style>
+</head>
+<body>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>添加用户</legend>
+</fieldset>
+
+<form class="layui-form" action="" lay-filter="example">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" id="empname" lay-verify="title" style="width: 250px;" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码框</label>
+        <div class="layui-input-block">
+            <input type="password" id="emppassword"  placeholder="请输入密码" style="width: 250px;" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机</label>
+        <div class="layui-input-block">
+            <input type="text" id="empimage" lay-verify="title" style="width: 250px;" autocomplete="off" placeholder="请输入手机号" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" >请选择角色</label>
+        <div class="layui-input-block">
+            <select name="roleids" id="roleids" lay-verify="required" lay-filter="xmFilter">
+                <option value="">请选择其中一个角色</option>
+            </select>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>
+<script type="text/javascript">
+
+
+    $(function (){
+        area:['80%','80%'],
+        xiala();
+        //$("#zh").focus();
+        layui.use(['laydate','form','layer','upload'], function(){
+            var laydate = layui.laydate;
+            var  form=layui.form;
+            laydate.render({
+                elem: '#createdate',
+                trigger: 'click'
+            });
+        });
+    });
+    //账号的input失去焦点事件
+    $("#empusename").blur(function(){
+        var zh = $("#empusename").val();
+        var ret =  /[a-zA-Z]/;
+        if(!ret.test(zh)){
+            $("#spp1").css("display","inline-block");//inline-block在一行里显示
+        }
+    })
+
+
+
+    //密码的input失去焦点事件
+    $("#emppassword").blur(function(){
+        var mm = $("#emppassword").val();
+        var ret = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
+        //至少8-16个字符，至少1个大写字母，1个小写字母和1个数字，其他可以是任意字符
+        if(!ret.test(mm)){
+            $("#spp3").css("display","inline-block");
+        }
+    })
+
+
+function xiala() {
+    $.ajax({
+        url:'emp/SelectRole',
+        dataType:'json',
+        type:'get',
+        success: function (data) {
+            var str ="";
+            for(var i=0;i<data.length;i++){
+                str +="<option value='"+data[i].roleid+"'>"+data[i].rolename+"</option>";
+            }
+            $("#roleids").html(str);
+            layui.form.render("select");
+        }
+    })
+}
+
+</script>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zking.zkingedu.common.dao.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.zking.zkingedu.common.model.Menu" >
+    <id column="menuid" property="menuid" jdbcType="INTEGER" />
+    <result column="menuname" property="menuname" jdbcType="VARCHAR" />
+    <result column="menuparentid" property="menuparentid" jdbcType="INTEGER" />
+    <result column="menuimage" property="menuimage" jdbcType="VARCHAR" />
+    <result column="menucode" property="menucode" jdbcType="VARCHAR" />
+    <result column="menuurl" property="menuurl" jdbcType="VARCHAR" />
+    <result column="menutype" property="menutype" jdbcType="INTEGER" />
+    <result column="menustate" property="menustate" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    menuid, menuname, menuparentid, menuimage, menucode, menuurl, menutype, menustate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where menuid = #{menuid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from menu
+    where menuid = #{menuid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zking.zkingedu.common.model.Menu" >
+    insert into menu (menuid, menuname, menuparentid, 
+      menuimage, menucode, menuurl, 
+      menutype, menustate)
+    values (#{menuid,jdbcType=INTEGER}, #{menuname,jdbcType=VARCHAR}, #{menuparentid,jdbcType=INTEGER}, 
+      #{menuimage,jdbcType=VARCHAR}, #{menucode,jdbcType=VARCHAR}, #{menuurl,jdbcType=VARCHAR}, 
+      #{menutype,jdbcType=INTEGER}, #{menustate,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zking.zkingedu.common.model.Menu" >
+    insert into menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        menuid,
+      </if>
+      <if test="menuname != null" >
+        menuname,
+      </if>
+      <if test="menuparentid != null" >
+        menuparentid,
+      </if>
+      <if test="menuimage != null" >
+        menuimage,
+      </if>
+      <if test="menucode != null" >
+        menucode,
+      </if>
+      <if test="menuurl != null" >
+        menuurl,
+      </if>
+      <if test="menutype != null" >
+        menutype,
+      </if>
+      <if test="menustate != null" >
+        menustate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        #{menuid,jdbcType=INTEGER},
+      </if>
+      <if test="menuname != null" >
+        #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuparentid != null" >
+        #{menuparentid,jdbcType=INTEGER},
+      </if>
+      <if test="menuimage != null" >
+        #{menuimage,jdbcType=VARCHAR},
+      </if>
+      <if test="menucode != null" >
+        #{menucode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuurl != null" >
+        #{menuurl,jdbcType=VARCHAR},
+      </if>
+      <if test="menutype != null" >
+        #{menutype,jdbcType=INTEGER},
+      </if>
+      <if test="menustate != null" >
+        #{menustate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zking.zkingedu.common.model.Menu" >
+    update menu
+    <set >
+      <if test="menuname != null" >
+        menuname = #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuparentid != null" >
+        menuparentid = #{menuparentid,jdbcType=INTEGER},
+      </if>
+      <if test="menuimage != null" >
+        menuimage = #{menuimage,jdbcType=VARCHAR},
+      </if>
+      <if test="menucode != null" >
+        menucode = #{menucode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuurl != null" >
+        menuurl = #{menuurl,jdbcType=VARCHAR},
+      </if>
+      <if test="menutype != null" >
+        menutype = #{menutype,jdbcType=INTEGER},
+      </if>
+      <if test="menustate != null" >
+        menustate = #{menustate,jdbcType=INTEGER},
+      </if>
+    </set>
+    where menuid = #{menuid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zking.zkingedu.common.model.Menu" >
+    update menu
+    set menuname = #{menuname,jdbcType=VARCHAR},
+      menuparentid = #{menuparentid,jdbcType=INTEGER},
+      menuimage = #{menuimage,jdbcType=VARCHAR},
+      menucode = #{menucode,jdbcType=VARCHAR},
+      menuurl = #{menuurl,jdbcType=VARCHAR},
+      menutype = #{menutype,jdbcType=INTEGER},
+      menustate = #{menustate,jdbcType=INTEGER}
+    where menuid = #{menuid,jdbcType=INTEGER}
+  </update>
+<!-- 统计父节点-->
+  <select id="getChildCount" resultType="int">
+         select count(*)
+         from menu
+         where menuparentid=#{menuparentid,jdbcType=INTEGER}
+    </select>
+
+  <select id="getChildlist" resultType="com.zking.zkingedu.common.model.Menu">
+         select menuname
+         from menu_role a join menu b
+         on  a.menuid=b.menuid
+         where b.menuparentid=#{menuparentid,jdbcType=INTEGER}
+    </select>
+
+<!--根据id查找当前菜单以及上级菜单相关信息-->
+  <select id="findObjectById" resultType="map">
+        select c.*,p.menuname parentName
+        from menu c left join menu p
+        on c.menuparentid=p.menuid
+        where c.menuid=#{menuid}
+    </select>
+
+  <!-- 方法一 -->
+  <!--
+  <select id="findObjects" resultType="map">
+       select c.*,p.name parentName
+       from menu c left join menu p
+       on c.parentId=p.id
+  </select>
+  -->
+  <!-- 方法二-->
+  <select id="findObjects" resultType="map">
+         select c.*,(select menuname
+                     from menu p
+                     where c.menuparentid=p.menuid)  parentName
+         from menu c
+    </select>
+
+  <select id="getMenuList" resultType="com.zking.zkingedu.common.model.Menu">
+         select e.menuid,
+    e.menuname,e.menuurl,e.menuparentid
+  from  role c
+  join menu_role d join menu e
+  on c.roleid=d.roleid and
+  d.menuid=e.menuid
+    where c.roleid = #{roleid} and e.menuparentid=0
+  </select>
+</mapper>
