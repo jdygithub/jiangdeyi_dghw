@@ -1,6 +1,5 @@
 package com.zking.zkingedu.common.service.impl;
 
-import com.sun.rowset.internal.Row;
 import com.zking.zkingedu.common.dao.MenuMapper;
 import com.zking.zkingedu.common.dao.Menu_RoleMapper;
 import com.zking.zkingedu.common.model.Menu;
@@ -10,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.swing.*;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @Service
@@ -87,4 +85,47 @@ public class MenuServiceImpl implements MenuService {
 
         return rows;
     }
+
+    @Override
+    public List<Menu> getmenus(Integer empid) {
+        List<Menu> results = new ArrayList();
+        List<Menu> menus = menuMapper.getmenus(empid);
+        if (menus!=null&&menus.size()>0){
+            for (int i=0;i<menus.size();i++){
+                //父类别id=0
+                if (((Menu)menus.get(i)).getMenuparentid()==0){
+                    Menu menu1=new Menu();
+                    menu1.setMenuid(((Menu)menus.get(i)).getMenuid());
+                    menu1.setMenuimage(((Menu)menus.get(i)).getMenuimage());
+                    menu1.setMenucode(((Menu)menus.get(i)).getMenucode());
+                    menu1.setMenuname(((Menu)menus.get(i)).getMenuname());
+                    menu1.setMenuparentid(((Menu)menus.get(i)).getMenuparentid());
+                    menu1.setMenustate(((Menu)menus.get(i)).getMenustate());
+                    menu1.setMenutype(((Menu)menus.get(i)).getMenutype());
+                    menu1.setMenuurl(((Menu)menus.get(i)).getMenuurl());
+                    //子菜单   所有类别的父ID等于顶级类别的ID
+                    List<Menu> childlist=new ArrayList<>();
+                    for (int j=0;j<menus.size();j++){
+                        if (((Menu)menus.get(i)).getMenuid()==((Menu)menus.get(j)).getMenuparentid()){
+                            Menu menu2=new Menu();
+                            menu2.setMenuid(((Menu)menus.get(j)).getMenuid());
+                            menu2.setMenuimage(((Menu)menus.get(j)).getMenuimage());
+                            menu2.setMenucode(((Menu)menus.get(j)).getMenucode());
+                            menu2.setMenuname(((Menu)menus.get(j)).getMenuname());
+                            menu2.setMenuparentid(((Menu)menus.get(j)).getMenuparentid());
+                            menu2.setMenustate(((Menu)menus.get(j)).getMenustate());
+                            menu2.setMenutype(((Menu)menus.get(j)).getMenutype());
+                            menu2.setMenuurl(((Menu)menus.get(j)).getMenuurl());
+                            childlist.add(menu2);
+                        }
+                    }
+                    menu1.setChildlist(childlist);
+                    results.add(menu1);
+                }
+            }
+        }
+        return results;
+    }
+
+
 }

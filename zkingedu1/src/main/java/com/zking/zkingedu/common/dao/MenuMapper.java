@@ -1,6 +1,7 @@
 package com.zking.zkingedu.common.dao;
 
 import com.zking.zkingedu.common.model.Menu;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -41,7 +42,9 @@ public interface MenuMapper {
     List<Map<String,Object>> findObjects();
 
 
-    List<Menu>getMenuList(int id);
+    List<Menu> getMenuList(int id);
 
     List<Menu> getChildlist(Integer id);
+
+    List<Menu> getmenus(@Param(value="empid")Integer empid);
 }

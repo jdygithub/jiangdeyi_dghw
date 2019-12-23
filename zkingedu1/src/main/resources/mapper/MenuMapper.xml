@@ -172,4 +172,14 @@
   d.menuid=e.menuid
     where c.roleid = #{roleid} and e.menuparentid=0
   </select>
+
+  <!--菜单接口Mapper-->
+  <select id="getmenus" resultType="Menu">
+    select DISTINCT e.* from employee a,role b,emp_role c,menu_role d,menu e
+    where a.empid=c.empid and b.roleid=c.roleid
+    and d.menuid = e.menuid and d.roleid = b.roleid
+    <if test="empid!=null">
+      and a.empid = #{empid}
+    </if>
+  </select>
 </mapper>

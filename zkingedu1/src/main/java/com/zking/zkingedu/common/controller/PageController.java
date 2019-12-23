@@ -2,7 +2,9 @@ package com.zking.zkingedu.common.controller;
 
 
 import com.zking.zkingedu.common.model.Employee;
+import com.zking.zkingedu.common.model.Menu;
 import com.zking.zkingedu.common.service.EmployeeService;
+import com.zking.zkingedu.common.service.MenuService;
 import com.zking.zkingedu.common.service.SystemServiceLog;
 import com.zking.zkingedu.common.utils.RedisUtil;
 import org.apache.shiro.SecurityUtils;
@@ -13,8 +15,9 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class PageController {
@@ -22,6 +25,8 @@ public class PageController {
     private EmployeeService employeeService;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private MenuService menuService;
     /**
      * 无需权限请求
      * @return
@@ -121,5 +126,14 @@ public class PageController {
     public  String editrole(){
         System.out.println("来了editrole");
         return  "lyb/editrole";
+    }
+
+    @RequestMapping(value = "/indexa")
+    public ModelAndView indexa(ModelAndView modelAndView){
+        //获得菜单集合
+        List<Menu> menus = menuService.getmenus(27);
+        modelAndView.addObject("menus",menus);
+        modelAndView.setViewName("lyb/admin-index");
+        return  modelAndView;
     }
 }

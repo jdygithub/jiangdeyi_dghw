@@ -17,6 +17,8 @@ public interface MenuService {
 
     int deleteObject(Integer id);
 
+    List<Menu> getmenus(Integer empid);
+
 
 
 }
