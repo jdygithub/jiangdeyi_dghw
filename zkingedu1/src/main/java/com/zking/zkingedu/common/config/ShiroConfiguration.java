@@ -39,17 +39,17 @@ public class ShiroConfiguration {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> map = new HashMap<>();
-//        map.put("/admin/**","anon");
-//        map.put("/echarts/**","anon");
-//        // 登出
-//        map.put("/logout", "logout");
-//        // 对所有用户认证
-//        map.put("/**", "authc");
+        map.put("/admin/**","anon");
+        map.put("/echarts/**","anon");
+        // 登出
+        map.put("/logout", "logout");
+        // 对所有用户认证
+        map.put("/**", "authc");
         // 登录
         // 注意：这里配置的 /login 是指到 @RequestMapping(value="/login")中的 /login
         shiroFilterFactoryBean.setLoginUrl("/login");
-//        map.put("/emp/dologin", "anon");
-//        map.put("/err", "anon");
+        map.put("/emp/dologin", "anon");
+        map.put("/err", "anon");
         // 成功登陆后返回首页
         shiroFilterFactoryBean.setSuccessUrl("index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/err");

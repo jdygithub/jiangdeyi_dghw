@@ -119,22 +119,9 @@
                 ,{field:'collectionname', title: '藏品名称',align:'center',width:220}
                 ,{field:'collectionyear', title: '藏品年代',align:'center',width:220}
                 ,{field:'collectiontypename', title: '藏品类别',align:'center',width:150}
-                // ,{field:'auditstatus', title: '审核状态',align:'center',width:130,template: function(item){
-                //         // if(item.auditstatus == 0){//父级
-                //             return '<span style="font-family:STXinwei;">未审核</span>';
-                //         // }else if(item.auditstatus == 1){//子级
-                //         //     return '<span style="font-family:STXinwei;">通过</span>';
-                //         // }else if(item.auditstatus == 2){//孙级
-                //         //     return '<span style="font-family:STXinwei;">未通过</span>';
-                //         // }
-                //     }}
-
                 ,{align:'center', field: 'image',title: '图片',templet: function(d){
                         return '<div><img onclick="show_img(this)" style="cursor:pointer" src="'+d.image+'" alt="无图片" width="170px" height="100px"></a></div>';
                     }}
-                // ,{field:'image',align:'center', title: '图片',templet: '#images'}
-                // ,{field:'collectionstatus',align:'center', title: '状态',templet: '#switchTpl', unresize: true,width:100}
-                // ,{fixed: 'right', title:'操作' ,align:'center',toolbar: '#barDemo',fixed: 'right',width:100}
                 ,{fixed: 'right', title:'操作' ,align:'center',fixed: 'right',templet: function(d){
                         if(d.auditstatus == 0){//未审核
                             return '<a class="layui-btn layui-btn-normal layui-btn-radius" lay-event="text" title="详细信息">信息</a>\n' +
@@ -429,7 +416,7 @@
                     skin: 'layui-layer-rim', //加上边框
                     area: [window.screen.width / 1.5 + 'px', window.screen.height / 1.2 + 'px'], //宽高
                     maxmin: true, //开启最大化最小化按钮
-                    content: "/getcollection?collectionid="+obj.data.collectionid,
+                    content: "jdy/getcollection?collectionid="+obj.data.collectionid,
                 });
             }
             else if(obj.event === 'sbsh'){
