@@ -78,7 +78,7 @@ public class EmployeeController extends SuperController{
     employeeService.login(empname,empassword);
     ModelAndView mv=new ModelAndView();
     System.out.println("开始跳转页面");
-    return "redirect:/index";
+    return "redirect:/indexa";
 }
 
 /*    public List<Collectiontype> getalltypes() {

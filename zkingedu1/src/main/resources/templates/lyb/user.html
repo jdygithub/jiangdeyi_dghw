@@ -11,8 +11,12 @@
     </style>
 </head>
 <body>
+<div style="text-align: center;">
+    <div class="layui-inline">
+        <table class="layui-hide" id="demo" lay-filter="test"></table>
+    </div>
+</div>
 
-<table class="layui-hide" id="demo" lay-filter="test">
 </table>
 
 <script type="text/html" id="toolbarDemo">
@@ -57,7 +61,8 @@
         //执行一个 table 实例
         table.render({
             elem: '#demo'
-            ,height: 420
+            ,width: 1107
+            ,height: 550
             ,url: 'emp/findAllEmpUser' //数据接口
             ,title: '用户表'
             ,page: true //开启分页
@@ -67,11 +72,11 @@
                 [ //表头
                 {type: 'checkbox', fixed: 'left'}
                 ,{field: 'empid', title: 'ID', width:100, sort: true, fixed: 'left', totalRowText: '合计：'}
-                ,{field: 'empname', title: '用户名', width:150}
-                ,{field: 'empimage', title: '手机号', width: 150, sort: true, totalRow: true}
-                ,{field: 'createdate', title: '创建时间', width:150, sort: true}
-                ,{field: 'state', title: '状态', width: 150, sort: true, totalRow: true}
-                ,{fixed: 'right', title:'操作',width: 180, align:'center', toolbar: '#barDemo'}
+                ,{field: 'empname', title: '用户名',align:'center', width:150}
+                ,{field: 'empimage', title: '手机号',align:'center', width: 250, totalRow: true}
+                ,{field: 'createdate', title: '创建时间', align:'center',width:250}
+                ,{field: 'state', title: '状态', width: 100, align:'center',totalRow: true}
+                ,{fixed: 'right', title:'操作',width: 200, align:'center', toolbar: '#barDemo'}
             ]
           ]
         });

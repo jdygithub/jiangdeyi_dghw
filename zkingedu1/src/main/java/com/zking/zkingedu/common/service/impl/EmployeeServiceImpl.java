@@ -14,7 +14,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,6 @@ import org.springframework.util.StringUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-import java.util.logging.Logger;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -60,6 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Session session=SecurityUtils.getSubject().getSession();
         Employee employee=employeeMapper.findEmpByUsername(username);
         session.setAttribute("user",employee);
+        session.setAttribute("empid",employee.getEmpid());
         System.out.println("user的所有信息 "+employee.toString());
     }
 

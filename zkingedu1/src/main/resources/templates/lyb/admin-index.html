@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress ALL-->
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -25,11 +26,11 @@
 
     <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
-            <a href="javascript:;">admin</a>
+            <a href="javascript:;" th:text="${session.user.empname}">***</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
                 <dd><a onClick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
                 <dd><a onClick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
-                <dd><a href="login.html">退出</a></dd>
+                <dd><a href="login" onclick="if(confirm('确认退出登录吗？')==false)return false;">退出登录</a></dd>
             </dl>
         </li>
 

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -129,9 +130,10 @@ public class PageController {
     }
 
     @RequestMapping(value = "/indexa")
-    public ModelAndView indexa(ModelAndView modelAndView){
+    public ModelAndView indexa(ModelAndView modelAndView, HttpServletRequest request){
         //获得菜单集合
-        List<Menu> menus = menuService.getmenus(27);
+        int empid= (int) request.getSession().getAttribute("empid");
+        List<Menu> menus = menuService.getmenus(empid);
         modelAndView.addObject("menus",menus);
         modelAndView.setViewName("lyb/admin-index");
         return  modelAndView;
