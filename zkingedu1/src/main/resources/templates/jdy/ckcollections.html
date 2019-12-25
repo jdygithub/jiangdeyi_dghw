@@ -15,6 +15,10 @@
   white-space: normal;
   }
 </style>
+<script th:inline="javascript">
+  //--获取session中的值
+  var empid = [[${session.empid}]]
+</script>
 <!--<script type="text/html" id="toolbarDemo">-->
   <!--<div class="layui-btn-container">-->
     <!--<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>-->
@@ -158,7 +162,6 @@
     util.event('lay-demoTransferActive', {
       getData: function(othis){
         var remark = $("#remark").val()//备注
-        var empid = 1//用户ID 员工ID
         var returndate = $("#returndate").val()//拟还日期
         var cwarehousetext = $("#cwarehousetext").val()//出库用途详细信息
         var getData = transfer.getData('key123'); //获取右侧数据

@@ -38,11 +38,11 @@ public class PageController {
         return "lyb/login";
     }
 
-    @RequestMapping(value = "index")
-    public String index(){
-        System.out.println("来了index");
-        return "lyb/index";
-    }
+//    @RequestMapping(value = "index")
+//    public String index(){
+//        System.out.println("来了index");
+//        return "lyb/index";
+//    }
 
     @RequestMapping(value = "main")
     public String main(){
@@ -129,8 +129,8 @@ public class PageController {
         return  "lyb/editrole";
     }
 
-    @RequestMapping(value = "/indexa")
-    public ModelAndView indexa(ModelAndView modelAndView, HttpServletRequest request){
+    @RequestMapping(value = "/index")
+    public ModelAndView index(ModelAndView modelAndView, HttpServletRequest request){
         //获得菜单集合
         int empid= (int) request.getSession().getAttribute("empid");
         List<Menu> menus = menuService.getmenus(empid);

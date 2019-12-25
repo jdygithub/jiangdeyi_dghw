@@ -21,6 +21,10 @@
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+      <script th:inline="javascript">
+          //--获取session中的值
+          var empid = [[${session.empid}]]
+      </script>
   </head>
   
   <body class="form-wrap" >
@@ -137,7 +141,7 @@
                 collectionid:data.field.collectionid,//藏品ID
                 timelong:data.field.date,//预计时间
                 repairaddress:data.field.addressa+'.'+data.field.addressb,//修复地址
-                empid:1,//员工ID
+                empid:empid,//员工ID
                 remark:data.field.remark//备注
             },
             success: function (result) {
