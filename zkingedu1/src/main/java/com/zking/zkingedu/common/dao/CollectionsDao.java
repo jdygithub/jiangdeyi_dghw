@@ -26,4 +26,7 @@ public interface CollectionsDao {
     List<Map> getcollectionsbycr(Map map);
     //查询所有管理员
     List<Map> getemps();
+    //添加藏品图片表
+    int addcollectionimage(Map map);
+
 }

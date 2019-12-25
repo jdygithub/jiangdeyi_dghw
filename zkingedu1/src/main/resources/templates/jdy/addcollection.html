@@ -521,10 +521,12 @@
                             },
                             success : function(data) {
                                if(data=='ok'){
-                                   layer.msg("添加图片成功");
+                                   layer.msg("添加成功", {icon:1,time:400},function(){
+                                       setTimeout('window.location.reload()',100);
+                                   });
                                }
                                else{
-                                   layer.msg("添加图片失败");
+                                   layer.msg("添加失败");
                                }
 
                             },

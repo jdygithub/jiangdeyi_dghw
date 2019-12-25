@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -35,10 +36,10 @@ public class CollectionsController extends SuperController {
     @Transactional//事物
     public String addcollection(@ModelAttribute Collections collections){
         try {
-//            collections.setCreatedtime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));//添加创建时间
-//            collectionsService.addcollection(collections);
-//            return collections.getCollectionid()+"";//返回主键给添加图片使用
-            return "35";
+            collections.setCreatedtime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));//添加创建时间
+            collectionsService.addcollection(collections);
+            return collections.getCollectionid()+"";//返回主键给添加图片使用
+//            return "35";
         }catch (Exception e){
             e.printStackTrace();
             return "error";
@@ -226,14 +227,19 @@ public class CollectionsController extends SuperController {
             Map map1 = getMap(request);
             String collectionid = (String)map1.get("collectionid");
             String dataStr = map1.get("dataStr").toString();
-            System.err.println(collectionid);
-            System.err.println("-----------------------------------------------------");
-            System.err.println(dataStr);
-            System.err.println("-----------------------------------------------------");
+//            System.err.println(collectionid);
+//            System.err.println("-----------------------------------------------------");
+//            System.err.println(dataStr);
+//            System.err.println("-----------------------------------------------------");
             String[] strarr = dataStr.split(",");
+            String str ="";
             for (String s : strarr) {
-                System.err.println(s.replaceAll("[\\{\\}\\[\\]]", ""));
+//                String imagename = "http://120.24.190.197/images/"+s.replaceAll("[\"\\{\\}\\[\\]]", "");
+                str +="("+collectionid+",\""+"http://120.24.190.197/images/"+s.replaceAll("[\"\\{\\}\\[\\]]", "")+"\"),";
             }
+            Map map = new HashMap();
+            map.put("str",str.substring(0,str.length() -1));
+            collectionsService.addcollectionimage(map);
             return "ok";
         }catch (Exception e){
             e.printStackTrace();

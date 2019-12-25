@@ -87,4 +87,9 @@ public class CollectionsServiceImpl implements CollectionsService {
     public List<Map> getemps(){
         return  collectionsDao.getemps();
     }
+
+    @Override
+    public int addcollectionimage(Map map) {
+        return collectionsDao.addcollectionimage(map);
+    }
 }
