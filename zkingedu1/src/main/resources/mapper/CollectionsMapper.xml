@@ -21,11 +21,10 @@
     <!--查询藏品按照是否入库-->
     <select id="getcollectionsbycr" resultType="map" parameterType="map">
         select collectionid,collectionname,existing from collections
-        <where>
+        where auditstatus = 1 and collectionstatus = 0
             <if test="null!=existing and ''!=existing">
-                existing = #{existing}
+               and existing = #{existing}
             </if>
-        </where>
     </select>
     <!--查询藏品-->
     <select id="getcollections" resultType="map" parameterType="map">

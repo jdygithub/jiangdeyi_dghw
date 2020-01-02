@@ -39,14 +39,14 @@ public class JdyURLController extends SuperController {
      */
     @RequestMapping("/addcollections")
     public ModelAndView addcollections(ModelAndView modelAndView, HttpSession session){
-//        List<Collectiontype> getalltypes = collectiontypeService.getalltypes();
-//        modelAndView.addObject("typelist",getalltypes);
         if(session.getAttribute("typelist")==null){//如果session中没有 就放一个进去
             List<Collectiontype> getalltypes = collectiontypeService.getalltypes();
             session.setAttribute("typelist",getalltypes);
         }
-        List<Map> getstorerooms = storeroomService.getstoreroomandquwei();
-        modelAndView.addObject("storerooms",getstorerooms);
+        if(session.getAttribute("storerooms")==null){
+            List<Map> getstorerooms = storeroomService.getstoreroomandquwei();
+            session.setAttribute("storerooms",getstorerooms);
+        }
         modelAndView.setViewName("jdy/addcollection");
         return modelAndView;
     }
@@ -128,6 +128,10 @@ public class JdyURLController extends SuperController {
             List<Collectiontype> getalltypes = collectiontypeService.getalltypes();
             session.setAttribute("typelist",getalltypes);
         }
+        if(session.getAttribute("storerooms")==null){
+            List<Map> getstorerooms = storeroomService.getstoreroomandquwei();
+            session.setAttribute("storerooms",getstorerooms);
+        }
         modelAndView.addObject("collectionid",collectionid);
         modelAndView.setViewName("jdy/getcollection");
         return modelAndView;
@@ -144,6 +148,10 @@ public class JdyURLController extends SuperController {
         if(session.getAttribute("typelist")==null){//如果session中没有 就放一个进去
             List<Collectiontype> getalltypes = collectiontypeService.getalltypes();
             session.setAttribute("typelist",getalltypes);
+        }
+        if(session.getAttribute("storerooms")==null){
+            List<Map> getstorerooms = storeroomService.getstoreroomandquwei();
+            session.setAttribute("storerooms",getstorerooms);
         }
         modelAndView.addObject("collectionid",collectionid);
         modelAndView.setViewName("jdy/updatecollection");
@@ -242,7 +250,6 @@ public class JdyURLController extends SuperController {
         Map map1 = getMap(request);
         List<Map> getquweis = quweiService.getquwei(map1);
         modelAndView.addObject("quweishows",getquweis);
-        modelAndView.addObject("storeroomname",map1.get("storeroomname"));
         modelAndView.setViewName("jdy/quweishow");
         return modelAndView;
     }

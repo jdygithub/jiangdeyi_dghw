@@ -7,6 +7,7 @@ import com.zking.zkingedu.common.service.EmployeeService;
 import com.zking.zkingedu.common.service.MenuService;
 import com.zking.zkingedu.common.service.SystemServiceLog;
 import com.zking.zkingedu.common.utils.RedisUtil;
+import com.zking.zkingedu.common.utils.SuperController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -19,9 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
-public class PageController {
+public class PageController extends SuperController {
     @Autowired
     private EmployeeService employeeService;
     @Autowired
@@ -82,9 +84,13 @@ public class PageController {
     }
     @SystemServiceLog
     @RequestMapping(value = "edituser")
-    public String edituser(){
-        System.out.println("edituser");
-        return "lyb/edituser";
+    public ModelAndView edituser(ModelAndView modelAndView,HttpServletRequest request){
+        Map map1 = getMap(request);
+        String empid = map1.get("empid").toString();
+        Map<String, Object> emp = employeeService.findObjectById(Integer.parseInt(empid));
+        modelAndView.addObject("emp",emp.get("user"));
+        modelAndView.setViewName("lyb/edituser");
+        return  modelAndView;
     }
 
     @RequestMapping(value = "err")

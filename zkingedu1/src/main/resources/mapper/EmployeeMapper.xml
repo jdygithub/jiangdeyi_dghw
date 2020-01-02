@@ -158,7 +158,7 @@
           resultType="map">
              select *
              from employee
-             where empid=#{empid,jdbcType=INTEGER}
+             where empid=#{empid}
      </select>
 
   <select id="findAllEmpUser" resultType="com.zking.zkingedu.common.model.Employee">

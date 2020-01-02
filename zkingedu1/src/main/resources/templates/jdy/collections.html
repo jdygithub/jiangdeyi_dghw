@@ -72,14 +72,14 @@
         ,toolbar:true
         ,defaultToolbar: ['filter', 'print', 'exports']
         ,cols: [ [
-            {field:'collectionid', title: '藏品ID',align:'center', sort: true,width:100}
-            ,{field:'collectionnotype', title: '编号类别',align:'center',width:180}
-            ,{field:'collectionno', title: '藏品编号',align:'center',width:220}
+            {field:'collectionid', title: 'ID',align:'center', sort: true,width:70}
+            ,{field:'collectionnotype', title: '编号类别',align:'center',width:160}
+            ,{field:'collectionno', title: '藏品编号',align:'center',width:180}
             ,{field:'collectionname', title: '藏品名称',align:'center',width:220}
             ,{field:'collectionyear', title: '藏品年代',align:'center',width:180}
             ,{field:'collectiontypename', title: '藏品类别',align:'center',width:150}
             ,{field:'collectionlevel', title: '藏品级别',align:'center',width:130}
-            ,{align:'center', field: 'image',title: '图片',templet: function(d){
+            ,{align:'center', field: 'image',title: '图片',width:180,templet: function(d){
                   return '<div><img onclick="show_img(this)" style="cursor:pointer" src="'+d.image+'" alt="无图片" width="170px" height="100px"></a></div>';
             // return '<div onclick="show_img(this)"><img src="'+d.image+'" alt="无图片" width="170px" height="100px"></a></div>';
               }}
@@ -164,7 +164,7 @@
             }
           },
           error:function () {
-            layer.msg("出现bug了，请联系9527")
+            layer.msg("出现BUG了，请联系大观文化开发人员")
           }
         })
     });
@@ -186,11 +186,11 @@
                 obj.del();
                 layer.close(index);
               }else{
-                layer.msg("出现bug了，请联系9527")
+                layer.msg("出现bug了，请联系大观文化开发人员")
               }
             },
             error:function () {
-              layer.msg("出现bug了，请联系921607915")
+              layer.msg("出现BUG了，请联系大观文化开发人员")
             }
           });
         });

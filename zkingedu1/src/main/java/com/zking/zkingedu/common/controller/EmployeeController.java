@@ -420,9 +420,11 @@ return  results;
 
     @RequestMapping("updateEmp")
     @ResponseBody
-    public  String  updateEmp(Employee entity,@Param(value = "roldids") String roleids){
-        System.out.println("entity为"+entity.getEmpid());
-    employeeService.updateObject(entity,roleids);
+    public  String  updateEmp(Employee entity,@Param(value = "roldids") String roldids){
+        System.err.println("---------------------------------------------------------------");
+        System.err.println(roldids);
+        System.err.println("---------------------------------------------------------------");
+        employeeService.updateObject(entity,roldids);
     return "update OK";
 }
 

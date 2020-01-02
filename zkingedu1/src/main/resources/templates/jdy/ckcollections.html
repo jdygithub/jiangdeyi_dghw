@@ -46,21 +46,7 @@
             </div>
           </div>
         </div>
-        <!--<div class="layui-form-item">-->
-          <!--<label class="layui-form-label">地点类型</label>-->
-          <!--<div class="layui-input-inline">-->
-            <!--<select id="select" lay-filter="Select" name="addressa" lay-verify="selecta">-->
-              <!--<option value="内部">内部修复</option>-->
-              <!--<option value="外部">外出修复</option>-->
-            <!--</select>-->
-          <!--</div>-->
-          <!--<div class="layui-inline">-->
-            <!--<label class="layui-form-label">地址</label>-->
-            <!--<div class="layui-input-inline" >-->
-              <!--<input type="text" name="addressb" autocomplete="off" class="layui-input"  id="address" lay-verify="address" value="修复部304室">-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
+
         <div class="layui-form-item layui-form-text">
           <label class="layui-form-label">备注</label>
           <div class="layui-input-block">
@@ -199,13 +185,13 @@
                   });
                 }
                 else{
-                  layer.msg("出现bug,请联系XXXXXXXX", {icon:2,time:1000},function(){
+                  layer.msg("出现bug,请联系大观文化开发人员", {icon:2,time:1000},function(){
                     setTimeout('window.location.reload()',1000);
                   });
                 }
               },
               error : function(e) {
-                layer.alert("出现BUG,请联系XXXXXXXX");
+                layer.alert("出现BUG,请联系大观文化开发人员");
               }
             });
           }

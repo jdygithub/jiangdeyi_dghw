@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress ALL-->
 <html lang="zh"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
@@ -17,24 +18,26 @@
     <legend>编辑用户</legend>
 </fieldset>
 
-<form class="layui-form" action="" lay-filter="example">
+<form class="layui-form layui-form-pane" action="" lay-filter="example">
+
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-            <input type="text" id="empname" lay-verify="title" style="width: 250px;" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+            <input type="text" id="empname" th:value="${emp.empname}"  lay-verify="title" style="width: 250px;" autocomplete="off" placeholder="请输入用户名" class="layui-input">
         </div>
     </div>
+
     <div class="layui-form-item">
         <label class="layui-form-label">密码框</label>
         <div class="layui-input-block">
-            <input type="password" id="emppassword" placeholder="请输入密码" style="width: 250px;" autocomplete="off" class="layui-input">
+            <input type="password" id="emppassword" th:value="${emp.emppassword}"   placeholder="请输入密码" style="width: 250px;" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">手机</label>
         <div class="layui-input-block">
-            <input type="text" id="empimage" lay-verify="title" style="width: 250px;" autocomplete="off" placeholder="请输入手机号" class="layui-input">
+            <input type="text" id="empimage" th:value="${emp.empimage}"  lay-verify="title" style="width: 250px;" autocomplete="off" placeholder="请输入手机号" class="layui-input">
         </div>
     </div>
 
@@ -46,12 +49,21 @@
             </select>
         </div>
     </div>
+
+    <div class="layui-input-block">
+        <div class="layui-footer" style="left: 0;">
+            <button class="layui-btn" lay-submit="" lay-filter="component-form-demo1">确定</button>
+        </div>
+    </div>
 </form>
 
 </body>
 </html>
+<script th:inline="javascript">
+    //thymeleaf获取作用域的值
+    var empid = [[${emp.empid}]]
+</script>
 <script type="text/javascript">
-
 
     $(function (){
         area:['80%','80%'],
@@ -63,6 +75,42 @@
             laydate.render({
                 elem: '#createdate',
                 trigger: 'click'
+            });
+
+            form.on('submit(component-form-demo1)', function(){
+               var empname = $("#empname").val();
+                var emppassword = $("#emppassword").val();
+                var empimage = $("#empimage").val();
+                var roleids = $("#roleids").val();
+                // parent.layer.alert(JSON.stringify(data.empname), {
+                //     title: '最终的提交信息'
+                // });
+                $.ajax({
+                    url:'emp/updateEmp',
+                    dataType:'json',
+                    type:'get',
+                    data:{
+                        empid : empid,
+                        empname : empname,
+                        emppassword : emppassword,
+                        empimage : empimage,
+                        roldids : roleids
+                    },
+                    success: function (data) {
+                       if(data != ""){
+                           var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                           parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                           parent.layer.close(index); //再执行关闭
+                       }
+                        else{
+                            layer.msg("出现bug了，请联系大观文化工作人员,电话:52288888")
+                        }
+                    },
+                    error: function () {
+                        layer.msg("出现BUG了，请联系大观文化工作人员,电话:52288888")
+                    }
+                })
+                return false;
             });
         });
     });

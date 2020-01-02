@@ -7,6 +7,7 @@ import com.zking.zkingedu.common.model.Collections;
 import com.zking.zkingedu.common.model.Collectiontype;
 import com.zking.zkingedu.common.service.CollectionsService;
 import com.zking.zkingedu.common.service.CollectiontypeService;
+import com.zking.zkingedu.common.service.QuweicollectionsService;
 import com.zking.zkingedu.common.utils.SuperController;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class CollectionsController extends SuperController {
     private CollectionsService collectionsService;
     @Autowired
     private CollectiontypeService collectiontypeService;
+    @Autowired
+    private QuweicollectionsService quweicollectionsService;
 
     /**
      * 添加藏品
@@ -38,6 +41,10 @@ public class CollectionsController extends SuperController {
         try {
             collections.setCreatedtime(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));//添加创建时间
             collectionsService.addcollection(collections);
+            Map map = new HashMap();
+            map.put("collectionid",collections.getCollectionid());
+            map.put("quweiid",collections.getCollectionaddresscode());
+            quweicollectionsService.addquweicollections(map);
             return collections.getCollectionid()+"";//返回主键给添加图片使用
 //            return "35";
         }catch (Exception e){
@@ -228,8 +235,8 @@ public class CollectionsController extends SuperController {
             String collectionid = (String)map1.get("collectionid");
             String dataStr = map1.get("dataStr").toString();
 //            System.err.println(collectionid);
-//            System.err.println("-----------------------------------------------------");
-//            System.err.println(dataStr);
+            System.err.println("-----------------------------------------------------");
+            System.err.println(dataStr);
 //            System.err.println("-----------------------------------------------------");
             String[] strarr = dataStr.split(",");
             String str ="";
@@ -237,6 +244,7 @@ public class CollectionsController extends SuperController {
 //                String imagename = "http://120.24.190.197/images/"+s.replaceAll("[\"\\{\\}\\[\\]]", "");
                 str +="("+collectionid+",\""+"http://120.24.190.197/images/"+s.replaceAll("[\"\\{\\}\\[\\]]", "")+"\"),";
             }
+            System.err.println(str);
             Map map = new HashMap();
             map.put("str",str.substring(0,str.length() -1));
             collectionsService.addcollectionimage(map);

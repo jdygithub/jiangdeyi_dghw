@@ -344,7 +344,7 @@
                                 <div class="layui-input-inline">
                                     <select name="quweiid" lay-verify="required">
                                         <option value="">请选择藏品仓库位置</option>
-                                        <optgroup label="仓库" th:each="item:${storerooms}" th:label="${item.storeroomname}">
+                                        <optgroup label="仓库" th:each="item:${session.storerooms}" th:label="${item.storeroomname}">
                                             <option value="0" th:each="itema:${item.getquwei}" th:value="${itema.quweiid}" th:text="${itema.quweiname}">A区</option>
                                         </optgroup>
                                     </select>
@@ -451,7 +451,7 @@
                   // location.href = "gallery.html?file=" + encodeURI(dataStr);
               },
               error : function(e) {
-                  alert("发生错误");
+                  alert("发生错误,请联系大观文化开发人员");
               }
           });
           return dataStr;
@@ -526,19 +526,19 @@
                                    });
                                }
                                else{
-                                   layer.msg("添加失败");
+                                   layer.msg("添加失败,请联系大观文化开发人员");
                                }
 
                             },
                             error : function(e) {
-                                alert("发生错误");
+                                alert("发生错误,请联系大观文化开发人员");
                             }
                         });
                                     // location.href = "gallery.html?file=" + encodeURI(dataStr);
                     }
                 },
                 error: function () {
-                    layer.msg("出现bug了，请联系大观文化工作人员,电话:52288888")
+                    layer.msg("出现bug了，请联系大观文化开发人员")
                 }
             });
         }
