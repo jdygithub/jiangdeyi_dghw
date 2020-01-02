@@ -136,7 +136,7 @@
         })
       },
       error : function(e) {
-        layer.alert("出现BUG,请联系XXXXXXXX");
+        layer.alert("出现BUG,请联系大观文化开发人员");
       }
     });
     //日期
@@ -170,7 +170,7 @@
             // layer.alert('str: '+str+'remark:'+remark+'empid:'+empid+'returndate:'+returndate+'cwarehousetext:'+cwarehousetext);
             $.ajax({
               type : "POST",
-              url : "cwarehouse/addcwarehouse",
+              url : "/cwarehouse/addcwarehouse",
               data : {
                 str:str,
                 remark:remark,
@@ -191,7 +191,7 @@
                 }
               },
               error : function(e) {
-                layer.alert("出现BUG,请联系大观文化开发人员");
+                layer.alert("出现BUG,请联系大观文化开发人员!");
               }
             });
           }
